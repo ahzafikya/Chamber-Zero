@@ -17,17 +17,15 @@ html, body {
     font-family: Arial, sans-serif;
 }
 
-/* ================= SCENE ================= */
-
 .scene {
     position: relative;
     width: 100vw;
     height: 100vh;
     overflow: hidden;
-    background: #111;
+    background: #101010;
 }
 
-/* ================= BUILDING ================= */
+/* BUILDING */
 
 .building {
     position: absolute;
@@ -43,54 +41,30 @@ html, body {
         ),
         linear-gradient(
             90deg,
-            #151515,
+            #141414,
             #292929 50%,
-            #111
+            #111111
         );
 
-    box-shadow:
-        inset 0 0 100px #000;
+    box-shadow: inset 0 0 120px #000;
 }
 
-/* Wall details */
-
-.building::after {
-    content: "";
-    position: absolute;
-    inset: 0;
-
-    background:
-        radial-gradient(
-            circle at 20% 25%,
-            rgba(255,255,255,.08),
-            transparent 2%
-        ),
-        radial-gradient(
-            circle at 80% 40%,
-            rgba(255,255,255,.06),
-            transparent 2%
-        );
-
-    background-size: 180px 150px;
-    opacity: .4;
-}
-
-/* ================= GROUND ================= */
+/* GROUND */
 
 .ground {
     position: absolute;
-    left: 0;
-    right: 0;
     bottom: 0;
-    height: 36%;
+    left: 0;
+    width: 100%;
+    height: 37%;
 
     background:
         repeating-linear-gradient(
-            105deg,
+            110deg,
             transparent 0px,
-            transparent 80px,
-            rgba(255,255,255,.025) 82px,
-            transparent 84px
+            transparent 75px,
+            rgba(255,255,255,.025) 77px,
+            transparent 79px
         ),
         repeating-linear-gradient(
             15deg,
@@ -99,13 +73,12 @@ html, body {
             rgba(255,255,255,.02) 102px,
             transparent 104px
         ),
-        #0d0d0d;
+        #0c0c0c;
 
-    box-shadow:
-        inset 0 20px 50px rgba(0,0,0,.9);
+    box-shadow: inset 0 25px 50px #000;
 }
 
-/* ================= DOORWAY ================= */
+/* DOOR */
 
 .entrance {
     position: absolute;
@@ -117,44 +90,32 @@ html, body {
     height: 600px;
 
     transform: translateX(-50%);
-
     perspective: 1400px;
 }
-
-/* Door frame */
 
 .frame {
     position: absolute;
     inset: 0;
 
-    background: #080808;
-
-    border: 18px solid #0a0a0a;
+    background: #070707;
+    border: 18px solid #090909;
 
     box-shadow:
         0 0 60px #000,
         inset 0 0 50px #000;
 }
 
-/* Dark room behind door */
-
 .inside {
     position: absolute;
-
-    left: 18px;
-    right: 18px;
-    top: 18px;
-    bottom: 18px;
+    inset: 18px;
 
     background:
         radial-gradient(
             ellipse at center,
-            #151515 0%,
+            #151515,
             #000 75%
         );
 }
-
-/* ================= DOORS ================= */
 
 .door {
     position: absolute;
@@ -167,35 +128,21 @@ html, body {
     background:
         linear-gradient(
             90deg,
-            #3a3a3a,
-            #181818 45%,
-            #2b2b2b
+            #3b3b3b,
+            #171717 45%,
+            #292929
         );
 
     border: 3px solid #080808;
 
     box-shadow:
         inset 0 0 30px #000,
-        0 10px 30px rgba(0,0,0,.8);
+        0 10px 30px #000;
 
     z-index: 5;
 
     transition:
         transform 1.8s cubic-bezier(.12,.72,.18,1);
-}
-
-/* Door panels */
-
-.door::after {
-    content: "";
-
-    position: absolute;
-    inset: 25px;
-
-    border: 2px solid #111;
-
-    box-shadow:
-        inset 0 0 20px #000;
 }
 
 .leftDoor {
@@ -208,8 +155,6 @@ html, body {
     transform-origin: right center;
 }
 
-/* Open */
-
 .open .leftDoor {
     transform: rotateY(-100deg);
 }
@@ -218,29 +163,23 @@ html, body {
     transform: rotateY(100deg);
 }
 
-/* ================= WALK-IN CAMERA ================= */
+/* CAMERA */
 
-/*
-   Small zoom only.
-   Keeps the ground visible.
-*/
-
-.scene.walkIn {
-    animation: walkIn 2.2s ease-out forwards;
+.walkIn {
+    animation: walkIn 2s ease-out forwards;
 }
 
 @keyframes walkIn {
-
-    0% {
+    from {
         transform: scale(1);
     }
 
-    100% {
-        transform: scale(1.12);
+    to {
+        transform: scale(1.1);
     }
 }
 
-/* ================= CHEST / BOX ================= */
+/* BOX */
 
 .box {
     position: absolute;
@@ -259,8 +198,7 @@ html, body {
 
     z-index: 20;
 
-    box-shadow:
-        0 25px 50px rgba(0,0,0,.9);
+    box-shadow: 0 25px 50px #000;
 
     transition:
         opacity .7s,
@@ -274,8 +212,6 @@ html, body {
         translateX(-50%)
         scale(1);
 }
-
-/* Black top */
 
 .boxTop {
     height: 50%;
@@ -291,8 +227,6 @@ html, body {
     border-bottom: 2px solid #222;
 }
 
-/* White bottom */
-
 .boxBottom {
     height: 50%;
 
@@ -300,14 +234,12 @@ html, body {
         linear-gradient(
             135deg,
             #fff,
-            #d0d0d0
+            #ccc
         );
 
     border: 5px solid #555;
     border-top: 0;
 }
-
-/* Gray button */
 
 .button {
     position: absolute;
@@ -330,15 +262,12 @@ html, body {
         );
 
     border: 6px solid #222;
-
-    box-shadow:
-        0 0 15px rgba(255,255,255,.25);
 }
 
-/* ================= EXACTLY 3 SHAKES ================= */
+/* THREE SHAKES */
 
 .box.shake {
-    animation: shake .65s ease-in-out;
+    animation: shake .6s ease-in-out;
 }
 
 @keyframes shake {
@@ -349,25 +278,25 @@ html, body {
 
     20% {
         transform:
-            translateX(calc(-50% - 15px))
+            translateX(calc(-50% - 14px))
             rotate(-5deg);
     }
 
     40% {
         transform:
-            translateX(calc(-50% + 15px))
+            translateX(calc(-50% + 14px))
             rotate(5deg);
     }
 
     60% {
         transform:
-            translateX(calc(-50% - 12px))
+            translateX(calc(-50% - 10px))
             rotate(-4deg);
     }
 
     80% {
         transform:
-            translateX(calc(-50% + 8px))
+            translateX(calc(-50% + 7px))
             rotate(3deg);
     }
 
@@ -378,7 +307,7 @@ html, body {
     }
 }
 
-/* ================= STARS ================= */
+/* STARS */
 
 .star {
     position: absolute;
@@ -386,8 +315,8 @@ html, body {
     left: 50%;
     top: calc(100% - 170px);
 
-    width: 7px;
-    height: 7px;
+    width: 6px;
+    height: 6px;
 
     background: white;
 
@@ -409,22 +338,22 @@ html, body {
     --explodeX: 0px;
     --explodeY: 0px;
 
-    --textX: 0px;
-    --textY: 0px;
+    --targetX: 0px;
+    --targetY: 0px;
 }
 
-/* ================= STAR EXPLOSION ================= */
+/* EXPLOSION */
 
 .explode .star {
     opacity: 1;
 
     animation:
-        explodeStar 1s
+        explode 1.1s
         cubic-bezier(.1,.7,.2,1)
         forwards;
 }
 
-@keyframes explodeStar {
+@keyframes explode {
 
     0% {
         transform:
@@ -438,17 +367,17 @@ html, body {
                 var(--explodeX),
                 var(--explodeY)
             )
-            scale(1.3);
+            scale(1.2);
     }
 }
 
-/* ================= STARS FORM WORD ================= */
+/* FORM ACTUAL WORD */
 
 .formWord .star {
 
     animation:
         formWord 2.5s
-        cubic-bezier(.2,.8,.2,1)
+        cubic-bezier(.15,.8,.2,1)
         forwards;
 }
 
@@ -460,14 +389,14 @@ html, body {
                 var(--explodeX),
                 var(--explodeY)
             )
-            scale(1.3);
+            scale(1.2);
     }
 
     100% {
         transform:
             translate(
-                var(--textX),
-                var(--textY)
+                var(--targetX),
+                var(--targetY)
             )
             scale(.9);
     }
@@ -480,47 +409,9 @@ html, body {
 
 <div class="scene" id="scene">
 
-    <div class="building">
-
-        <div style="
-            position:absolute;
-            width:70px;
-            height:100px;
-            left:8%;
-            top:12%;
-            background:#050505;
-            border:4px solid #111;
-        "></div>
-
-        <div style="
-            position:absolute;
-            width:70px;
-            height:100px;
-            right:10%;
-            top:20%;
-            background:#050505;
-            border:4px solid #111;
-        "></div>
-
-        <div style="
-            position:absolute;
-            width:70px;
-            height:100px;
-            left:18%;
-            top:48%;
-            background:#050505;
-            border:4px solid #111;
-        "></div>
-
-    </div>
-
-
-    <!-- BLACK CONCRETE GROUND -->
+    <div class="building"></div>
 
     <div class="ground"></div>
-
-
-    <!-- DOOR -->
 
     <div class="entrance" id="entrance">
 
@@ -534,9 +425,6 @@ html, body {
 
     </div>
 
-
-    <!-- BOX -->
-
     <div class="box" id="box">
 
         <div class="boxTop"></div>
@@ -546,9 +434,6 @@ html, body {
         <div class="button"></div>
 
     </div>
-
-
-    <!-- STARS -->
 
     <div id="stars"></div>
 
@@ -570,9 +455,87 @@ const stars =
     document.getElementById("stars");
 
 
-/* ================= CREATE STARS ================= */
+/* =========================================
+   MAKE THE ACTUAL "QUADRO BRO'S" SHAPE
+   ========================================= */
 
-const starCount = 140;
+const canvas =
+    document.createElement("canvas");
+
+const ctx =
+    canvas.getContext("2d");
+
+canvas.width = 1000;
+canvas.height = 250;
+
+ctx.fillStyle = "white";
+
+ctx.font =
+    "bold 110px Arial";
+
+ctx.textAlign = "center";
+ctx.textBaseline = "middle";
+
+ctx.fillText(
+    "Quadro Bro's",
+    500,
+    125
+);
+
+
+/* Find the actual pixels of the letters */
+
+const pixels =
+    ctx.getImageData(
+        0,
+        0,
+        canvas.width,
+        canvas.height
+    ).data;
+
+
+/* Store positions */
+
+const textPositions = [];
+
+
+/*
+   Every few pixels becomes a star.
+   This creates the actual letter shapes.
+*/
+
+for (let y = 0; y < canvas.height; y += 5) {
+
+    for (let x = 0; x < canvas.width; x += 5) {
+
+        const index =
+            (y * canvas.width + x) * 4;
+
+        const alpha =
+            pixels[index + 3];
+
+        if (alpha > 150) {
+
+            textPositions.push({
+                x: x - 500,
+                y: y - 125
+            });
+
+        }
+    }
+}
+
+
+/* =========================================
+   CREATE STARS
+   ========================================= */
+
+const starCount =
+    Math.min(
+        500,
+        textPositions.length
+    );
+
 
 for (let i = 0; i < starCount; i++) {
 
@@ -582,77 +545,82 @@ for (let i = 0; i < starCount; i++) {
     star.className = "star";
 
 
-    /* Random explosion direction */
+    /* Random explosion */
 
     const angle =
         Math.random() * Math.PI * 2;
 
     const distance =
-        150 + Math.random() * 400;
+        100 + Math.random() * 450;
 
-    const x =
+    const explodeX =
         Math.cos(angle) * distance;
 
-    const y =
+    const explodeY =
         Math.sin(angle) * distance;
+
 
     star.style.setProperty(
         "--explodeX",
-        x + "px"
+        explodeX + "px"
     );
 
     star.style.setProperty(
         "--explodeY",
-        y + "px"
+        explodeY + "px"
     );
+
+
+    /* ACTUAL LETTER POSITION */
+
+    const target =
+        textPositions[
+            Math.floor(
+                i *
+                textPositions.length /
+                starCount
+            )
+        ];
 
 
     /*
-       Positions for the final
-       "Quadro Bro's" shape
+       Scale the text to fit
+       nicely on the screen.
     */
 
-    const textX =
-        (Math.random() - 0.5) * 520;
-
-    const textY =
-        (Math.random() - 0.5) * 100;
+    const scale = 0.8;
 
     star.style.setProperty(
-        "--textX",
-        textX + "px"
+        "--targetX",
+        (target.x * scale) + "px"
     );
 
     star.style.setProperty(
-        "--textY",
-        textY + "px"
+        "--targetY",
+        (target.y * scale) + "px"
     );
 
-
-    star.style.animationDelay =
-        (Math.random() * .25) + "s";
 
     stars.appendChild(star);
 }
 
 
-/* ================= DOORS OPEN ================= */
+/* =========================================
+   DOORS OPEN
+   ========================================= */
 
 setTimeout(() => {
 
     entrance.classList.add("open");
-
-    /*
-       Small camera movement.
-       NOT a huge zoom.
-    */
 
     scene.classList.add("walkIn");
 
 }, 1000);
 
 
-/* ================= BOX APPEARS ================= */
+/* =========================================
+   BOX APPEARS
+   ========================================= */
 
 setTimeout(() => {
 
@@ -661,7 +629,9 @@ setTimeout(() => {
 }, 2700);
 
 
-/* ================= SHAKE #1 ================= */
+/* =========================================
+   SHAKE #1
+   ========================================= */
 
 setTimeout(() => {
 
@@ -670,7 +640,9 @@ setTimeout(() => {
 }, 3600);
 
 
-/* ================= SHAKE #2 ================= */
+/* =========================================
+   SHAKE #2
+   ========================================= */
 
 setTimeout(() => {
 
@@ -683,7 +655,9 @@ setTimeout(() => {
 }, 4400);
 
 
-/* ================= SHAKE #3 ================= */
+/* =========================================
+   SHAKE #3
+   ========================================= */
 
 setTimeout(() => {
 
@@ -696,34 +670,23 @@ setTimeout(() => {
 }, 5200);
 
 
-/* ================= BURST ================= */
+/* =========================================
+   STAR EXPLOSION
+   ========================================= */
 
 setTimeout(() => {
 
-    /*
-       Hide box
-    */
-
     box.style.opacity = "0";
-
-
-    /*
-       Stars immediately
-       burst OUT of the box.
-    */
 
     stars.classList.add("explode");
 
 }, 6000);
 
 
-/* ================= WAIT 2 SECONDS ================= */
-
-/*
-   Exactly 2 seconds after
-   the explosion, stars begin
-   moving together.
-*/
+/* =========================================
+   WAIT 2 SECONDS
+   THEN FORM THE ACTUAL WORD
+   ========================================= */
 
 setTimeout(() => {
 
