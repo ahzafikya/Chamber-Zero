@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Quadro Bro's</title>
+<title>Chamber Zero</title>
 
 <style>
 
@@ -634,11 +634,6 @@ function createTextTargets() {
     textCanvas.height = height;
 
 
-    /*
-       Smaller text = more room around
-       the complete phrase.
-    */
-
     const fontSize =
         Math.min(
             width * 0.085,
@@ -660,12 +655,11 @@ function createTextTargets() {
 
 
     /*
-       THIS IS THE ACTUAL TEXT.
-       It never changes.
+       ACTUAL STAR TEXT
     */
 
     textCtx.fillText(
-        "Quadro Bro's",
+        "Chamber Zero",
         width / 2,
         height / 2
     );
@@ -686,13 +680,6 @@ function createTextTargets() {
 
     const points = [];
 
-
-    /*
-       Scan the COMPLETE canvas.
-       Every visible part of the
-       sentence becomes a possible
-       star position.
-    */
 
     for (
         let y = 0;
@@ -725,10 +712,6 @@ function createTextTargets() {
 
     }
 
-
-    /*
-       Randomize the target assignment.
-    */
 
     for (
         let i = points.length - 1;
@@ -980,11 +963,11 @@ function animateStars(now) {
 
 
     /* ==================================================
-       1.2 - 3.2 SEC
-       EXACTLY 2 SECOND WAIT
+       1.2 - 2.2 SEC
+       EXACTLY 1 SECOND WAIT
     ================================================== */
 
-    else if (elapsed < 3200) {
+    else if (elapsed < 2200) {
 
         ctx.beginPath();
 
@@ -1016,14 +999,14 @@ function animateStars(now) {
 
 
     /* ==================================================
-       3.2+ SEC
-       FORM QUADRO BRO'S
+       2.2+ SEC
+       FORM CHAMBER ZERO
     ================================================== */
 
     else {
 
         const formElapsed =
-            elapsed - 3200;
+            elapsed - 2200;
 
 
         const duration =
