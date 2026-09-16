@@ -45,29 +45,103 @@ html, body {
         transform 3.2s cubic-bezier(.65,0,.15,1);
 
     z-index: 1;
+
+    perspective: 1400px;
 }
 
 
 /* ==================================================
-   BUILDING
+   WALL / BUILDING
 ================================================== */
 
 .building {
     position: absolute;
     inset: 0;
 
-    background:
-        linear-gradient(
+    background-color: #101010;
+
+    /*
+       Realistic dark brick wall
+    */
+
+    background-image:
+
+        /* horizontal mortar */
+        repeating-linear-gradient(
+            to bottom,
+            transparent 0px,
+            transparent 47px,
+            #050505 48px,
+            #050505 51px
+        ),
+
+        /* vertical brick joints */
+        repeating-linear-gradient(
             90deg,
-            #101010 0%,
-            #292929 20%,
-            #3b3b3b 50%,
-            #252525 80%,
-            #101010 100%
+            transparent 0px,
+            transparent 94px,
+            #070707 95px,
+            #070707 99px
+        ),
+
+        /* offset brick rows */
+        repeating-linear-gradient(
+            90deg,
+            transparent 0px,
+            transparent 94px,
+            rgba(0,0,0,.7) 95px,
+            rgba(0,0,0,.7) 99px
+        ),
+
+        /* wall lighting */
+        radial-gradient(
+            ellipse at 50% 35%,
+            #343434 0%,
+            #202020 38%,
+            #111 72%,
+            #050505 100%
         );
 
+    background-size:
+        auto,
+        99px 51px,
+        99px 102px,
+        auto;
+
+    background-position:
+        0 0,
+        0 0,
+        49px 51px,
+        0 0;
+
     box-shadow:
-        inset 0 0 180px #000;
+        inset 0 0 180px #000,
+        inset 0 -80px 120px #000;
+}
+
+
+/* ==================================================
+   SUBTLE WALL TEXTURE
+================================================== */
+
+.building::after {
+    content: "";
+
+    position: absolute;
+    inset: 0;
+
+    background:
+        repeating-linear-gradient(
+            0deg,
+            rgba(255,255,255,.018) 0px,
+            rgba(255,255,255,.018) 1px,
+            transparent 1px,
+            transparent 5px
+        );
+
+    opacity: .45;
+
+    pointer-events: none;
 }
 
 
@@ -78,25 +152,65 @@ html, body {
 .ground {
     position: absolute;
 
-    left: -10%;
-    bottom: -10%;
+    left: -15%;
+    bottom: -20%;
 
-    width: 120%;
-    height: 55%;
+    width: 130%;
+    height: 58%;
 
-    background:
+    background-color: #090909;
+
+    /*
+       Black floor bricks
+    */
+
+    background-image:
+
+        /* horizontal joints */
+        repeating-linear-gradient(
+            to bottom,
+            transparent 0px,
+            transparent 54px,
+            #020202 55px,
+            #020202 59px
+        ),
+
+        /* vertical joints */
+        repeating-linear-gradient(
+            90deg,
+            transparent 0px,
+            transparent 105px,
+            #020202 106px,
+            #020202 111px
+        ),
+
+        /* subtle floor lighting */
         linear-gradient(
             to bottom,
-            #171717,
-            #080808 70%,
-            #000
+            #181818 0%,
+            #0b0b0b 35%,
+            #030303 100%
         );
+
+    background-size:
+        auto,
+        111px 110px,
+        auto;
+
+    background-position:
+        0 0,
+        0 0,
+        0 0;
 
     transform:
         perspective(600px)
         rotateX(62deg);
 
     transform-origin: bottom;
+
+    box-shadow:
+        inset 0 50px 80px rgba(0,0,0,.8),
+        0 -20px 80px #000;
 }
 
 
@@ -113,15 +227,46 @@ html, body {
     left: 50%;
     top: 16%;
 
-    transform: translateX(-50%);
+    transform:
+        translateX(-50%);
 
-    background: #050505;
+    background: #030303;
 
     box-shadow:
         0 0 80px #000,
-        inset 0 0 40px #000;
+        inset 0 0 50px #000;
 
-    overflow: hidden;
+    overflow: visible;
+
+    transform-style: preserve-3d;
+}
+
+
+/* ==================================================
+   INNER ENTRANCE SHADOW
+================================================== */
+
+.entrance::after {
+    content: "";
+
+    position: absolute;
+
+    inset: 0;
+
+    background:
+        radial-gradient(
+            ellipse at center,
+            #151515 0%,
+            #050505 55%,
+            #000 100%
+        );
+
+    box-shadow:
+        inset 0 0 80px #000;
+
+    z-index: 0;
+
+    pointer-events: none;
 }
 
 
@@ -140,27 +285,61 @@ html, body {
     background:
         linear-gradient(
             90deg,
+            #090909,
+            #222,
             #111,
-            #292929,
-            #151515
+            #050505
         );
 
-    border: 2px solid #080808;
+    border: 2px solid #050505;
 
     transition:
-        transform 1.7s cubic-bezier(.7,0,.2,1);
+        transform 1.9s cubic-bezier(.65,0,.18,1);
 
     z-index: 5;
+
+    transform-style: preserve-3d;
+
+    box-shadow:
+        0 0 18px rgba(0,0,0,.8);
 }
 
 .door.left {
     left: 0;
-    transform-origin: left center;
+
+    transform-origin:
+        left center;
 }
 
 .door.right {
     right: 0;
-    transform-origin: right center;
+
+    transform-origin:
+        right center;
+}
+
+
+/* ==================================================
+   DOOR METAL TEXTURE
+================================================== */
+
+.door::after {
+    content: "";
+
+    position: absolute;
+
+    inset: 0;
+
+    background:
+        repeating-linear-gradient(
+            90deg,
+            rgba(255,255,255,.018) 0px,
+            rgba(255,255,255,.018) 2px,
+            transparent 2px,
+            transparent 8px
+        );
+
+    pointer-events: none;
 }
 
 
@@ -168,33 +347,52 @@ html, body {
    DOOR PANELS
 ================================================== */
 
-.door::before,
-.door::after {
+.door::before {
     content: "";
 
     position: absolute;
 
-    left: 12%;
-    right: 12%;
+    left: 10%;
+    right: 10%;
+    top: 8%;
+    bottom: 8%;
 
     border: 2px solid #050505;
 
     background:
         linear-gradient(
             135deg,
-            #222,
-            #111
+            #252525,
+            #111 45%,
+            #080808
         );
+
+    box-shadow:
+        inset 0 0 20px #000;
+
+    pointer-events: none;
 }
 
-.door::before {
-    top: 10%;
-    height: 35%;
-}
 
-.door::after {
-    bottom: 10%;
-    height: 35%;
+/* ==================================================
+   DOOR INNER PANEL
+================================================== */
+
+.door .handle::before {
+    content: "";
+
+    position: absolute;
+
+    width: 60%;
+    height: 70%;
+
+    left: 20%;
+    top: 15%;
+
+    border: 1px solid #333;
+
+    box-shadow:
+        inset 0 0 10px #000;
 }
 
 
@@ -212,12 +410,21 @@ html, body {
 
     transform: translateY(-50%);
 
-    background: #777;
+    background:
+        linear-gradient(
+            90deg,
+            #444,
+            #999,
+            #444
+        );
 
     border-radius: 5px;
 
     box-shadow:
-        0 0 10px #aaa;
+        0 0 10px #aaa,
+        inset 0 0 5px #111;
+
+    z-index: 10;
 }
 
 .left .handle {
@@ -230,19 +437,25 @@ html, body {
 
 
 /* ==================================================
-   DOORS OPEN
+   DOOR PULL OUTWARD
 ================================================== */
 
 .entrance.doors-open .left {
+
     transform:
+        translateZ(90px)
         perspective(900px)
-        rotateY(-110deg);
+        rotateY(-105deg)
+        translateX(-25px);
 }
 
 .entrance.doors-open .right {
+
     transform:
+        translateZ(90px)
         perspective(900px)
-        rotateY(110deg);
+        rotateY(105deg)
+        translateX(25px);
 }
 
 
@@ -307,6 +520,9 @@ html, body {
         14px 14px 0 0;
 
     border: 3px solid #000;
+
+    box-shadow:
+        inset 0 5px 10px rgba(255,255,255,.05);
 }
 
 
@@ -327,13 +543,17 @@ html, body {
         linear-gradient(
             135deg,
             #eee,
-            #999
+            #999,
+            #777
         );
 
     border-radius:
         0 0 14px 14px;
 
     border: 3px solid #000;
+
+    box-shadow:
+        inset 0 -5px 10px rgba(0,0,0,.25);
 }
 
 
@@ -355,7 +575,13 @@ html, body {
 
     border-radius: 50%;
 
-    background: #aaa;
+    background:
+        radial-gradient(
+            circle at 35% 30%,
+            #eee,
+            #999 45%,
+            #555
+        );
 
     border: 5px solid #333;
 
@@ -653,10 +879,6 @@ function createTextTargets() {
     textCtx.fillStyle =
         "#ffffff";
 
-
-    /*
-       ACTUAL STAR TEXT
-    */
 
     textCtx.fillText(
         "Chamber Zero",
@@ -1102,7 +1324,7 @@ setTimeout(() => {
 
 
     /*
-       DOORS START OPENING
+       DOORS START PULLING OPEN
        AT THE SAME TIME AS ZOOM
     */
 
