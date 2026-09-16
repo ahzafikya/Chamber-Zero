@@ -30,9 +30,9 @@ html, body {
 }
 
 
-/* =========================
+/* ==================================================
    CAMERA
-========================= */
+================================================== */
 
 .camera {
     position: absolute;
@@ -42,15 +42,15 @@ html, body {
     transform: scale(1);
 
     transition:
-        transform 3s cubic-bezier(.65,0,.15,1);
+        transform 3.2s cubic-bezier(.65,0,.15,1);
 
     z-index: 1;
 }
 
 
-/* =========================
+/* ==================================================
    BUILDING
-========================= */
+================================================== */
 
 .building {
     position: absolute;
@@ -59,7 +59,7 @@ html, body {
     background:
         linear-gradient(
             90deg,
-            #111 0%,
+            #101010 0%,
             #292929 20%,
             #3b3b3b 50%,
             #252525 80%,
@@ -71,9 +71,9 @@ html, body {
 }
 
 
-/* =========================
+/* ==================================================
    FLOOR
-========================= */
+================================================== */
 
 .ground {
     position: absolute;
@@ -100,9 +100,9 @@ html, body {
 }
 
 
-/* =========================
+/* ==================================================
    ENTRANCE
-========================= */
+================================================== */
 
 .entrance {
     position: absolute;
@@ -125,9 +125,9 @@ html, body {
 }
 
 
-/* =========================
+/* ==================================================
    DOORS
-========================= */
+================================================== */
 
 .door {
     position: absolute;
@@ -148,25 +148,25 @@ html, body {
     border: 2px solid #080808;
 
     transition:
-        transform 1.4s cubic-bezier(.7,0,.2,1);
+        transform 1.7s cubic-bezier(.7,0,.2,1);
 
     z-index: 5;
 }
 
 .door.left {
     left: 0;
-
     transform-origin: left center;
 }
 
 .door.right {
     right: 0;
-
     transform-origin: right center;
 }
 
 
-/* DOOR PANELS */
+/* ==================================================
+   DOOR PANELS
+================================================== */
 
 .door::before,
 .door::after {
@@ -198,7 +198,9 @@ html, body {
 }
 
 
-/* HANDLES */
+/* ==================================================
+   HANDLES
+================================================== */
 
 .handle {
     position: absolute;
@@ -227,7 +229,9 @@ html, body {
 }
 
 
-/* OPEN */
+/* ==================================================
+   DOORS OPEN
+================================================== */
 
 .entrance.doors-open .left {
     transform:
@@ -242,9 +246,9 @@ html, body {
 }
 
 
-/* =========================
+/* ==================================================
    EFFECTS
-========================= */
+================================================== */
 
 .effects {
     position: absolute;
@@ -256,9 +260,9 @@ html, body {
 }
 
 
-/* =========================
-   BOX
-========================= */
+/* ==================================================
+   CHEST
+================================================== */
 
 .box {
     position: absolute;
@@ -279,7 +283,9 @@ html, body {
 }
 
 
-/* TOP */
+/* ==================================================
+   CHEST TOP
+================================================== */
 
 .box-top {
     position: absolute;
@@ -300,12 +306,13 @@ html, body {
     border-radius:
         14px 14px 0 0;
 
-    border:
-        3px solid #000;
+    border: 3px solid #000;
 }
 
 
-/* BOTTOM */
+/* ==================================================
+   CHEST BOTTOM
+================================================== */
 
 .box-bottom {
     position: absolute;
@@ -326,12 +333,13 @@ html, body {
     border-radius:
         0 0 14px 14px;
 
-    border:
-        3px solid #000;
+    border: 3px solid #000;
 }
 
 
-/* BUTTON */
+/* ==================================================
+   BUTTON
+================================================== */
 
 .button {
     position: absolute;
@@ -359,7 +367,9 @@ html, body {
 }
 
 
-/* APPEAR */
+/* ==================================================
+   CHEST APPEAR
+================================================== */
 
 .box.appear {
     opacity: 1;
@@ -393,9 +403,9 @@ html, body {
 }
 
 
-/* =========================
+/* ==================================================
    EXACTLY 3 SHAKES
-========================= */
+================================================== */
 
 .box.shake1 {
     animation:
@@ -500,9 +510,9 @@ html, body {
 }
 
 
-/* =========================
+/* ==================================================
    STAR CANVAS
-========================= */
+================================================== */
 
 #starCanvas {
     position: absolute;
@@ -567,6 +577,10 @@ html, body {
 
 <script>
 
+/* ==================================================
+   ELEMENTS
+================================================== */
+
 const camera =
     document.querySelector(".camera");
 
@@ -594,18 +608,18 @@ canvas.width = width;
 canvas.height = height;
 
 
-/* =========================
+/* ==================================================
    STAR SETTINGS
-========================= */
+================================================== */
 
-const STAR_COUNT = 450;
+const STAR_COUNT = 1200;
 
 const stars = [];
 
 
-/* =========================
-   CREATE PERFECT TEXT SHAPE
-========================= */
+/* ==================================================
+   CREATE TEXT STAR MAP
+================================================== */
 
 function createTextTargets() {
 
@@ -616,25 +630,19 @@ function createTextTargets() {
         textCanvas.getContext("2d");
 
 
-    /*
-       Give the text canvas lots of
-       empty space so NOTHING gets
-       clipped.
-    */
-
     textCanvas.width = width;
     textCanvas.height = height;
 
 
     /*
-       Responsive font.
-       Much smaller than before.
+       Smaller text = more room around
+       the complete phrase.
     */
 
-    let fontSize =
+    const fontSize =
         Math.min(
-            width * 0.075,
-            100
+            width * 0.085,
+            115
         );
 
 
@@ -648,8 +656,13 @@ function createTextTargets() {
         "middle";
 
     textCtx.fillStyle =
-        "#fff";
+        "#ffffff";
 
+
+    /*
+       THIS IS THE ACTUAL TEXT.
+       It never changes.
+    */
 
     textCtx.fillText(
         "Quadro Bro's",
@@ -675,31 +688,31 @@ function createTextTargets() {
 
 
     /*
-       Sample the ENTIRE canvas,
-       not just the upper part.
+       Scan the COMPLETE canvas.
+       Every visible part of the
+       sentence becomes a possible
+       star position.
     */
 
     for (
         let y = 0;
         y < height;
-        y += 4
+        y += 3
     ) {
 
         for (
             let x = 0;
             x < width;
-            x += 4
+            x += 3
         ) {
 
             const index =
                 (y * width + x) * 4;
 
 
-            const alpha =
-                pixels[index + 3];
-
-
-            if (alpha > 180) {
+            if (
+                pixels[index + 3] > 100
+            ) {
 
                 points.push({
                     x,
@@ -714,8 +727,7 @@ function createTextTargets() {
 
 
     /*
-       Shuffle points so stars
-       spread through every letter.
+       Randomize the target assignment.
     */
 
     for (
@@ -726,8 +738,10 @@ function createTextTargets() {
 
         const j =
             Math.floor(
-                Math.random() * (i + 1)
+                Math.random() *
+                (i + 1)
             );
+
 
         [
             points[i],
@@ -741,27 +755,14 @@ function createTextTargets() {
     }
 
 
-    /*
-       Return positions centered
-       around screen center.
-    */
-
-    return points.map(point => ({
-
-        x:
-            point.x - width / 2,
-
-        y:
-            point.y - height / 2
-
-    }));
+    return points;
 
 }
 
 
-/* =========================
+/* ==================================================
    CREATE STARS
-========================= */
+================================================== */
 
 let targets =
     createTextTargets();
@@ -785,8 +786,9 @@ function createStars() {
 
 
         const distance =
-            100 +
-            Math.random() * 450;
+            80 +
+            Math.random() *
+            500;
 
 
         const target =
@@ -806,14 +808,16 @@ function createStars() {
                 distance,
 
             targetX:
-                target.x,
+                target.x -
+                width / 2,
 
             targetY:
-                target.y,
+                target.y -
+                height / 2,
 
             size:
-                1.5 +
-                Math.random() * 2.2
+                1.3 +
+                Math.random() * 2.4
 
         });
 
@@ -825,18 +829,15 @@ function createStars() {
 createStars();
 
 
-/* =========================
-   STAR DRAWING
-========================= */
+/* ==================================================
+   DRAW STAR
+================================================== */
 
 function drawStar(
     x,
     y,
     size
 ) {
-
-    ctx.beginPath();
-
 
     ctx.moveTo(
         x,
@@ -880,14 +881,12 @@ function drawStar(
 
     ctx.closePath();
 
-    ctx.fill();
-
 }
 
 
-/* =========================
-   STAR ANIMATION
-========================= */
+/* ==================================================
+   EXPLOSION
+================================================== */
 
 let animationStart = 0;
 
@@ -926,11 +925,14 @@ function animateStars(now) {
         now - animationStart;
 
 
-    /*
-       PHASE 1
-       Explosion
-       0 → 1.2 seconds
-    */
+    ctx.fillStyle =
+        "#ffffff";
+
+
+    /* ==================================================
+       0 - 1.2 SEC
+       EXPLOSION
+    ================================================== */
 
     if (elapsed < 1200) {
 
@@ -946,7 +948,7 @@ function animateStars(now) {
             );
 
 
-        ctx.fillStyle = "#fff";
+        ctx.beginPath();
 
 
         for (const star of stars) {
@@ -971,17 +973,20 @@ function animateStars(now) {
 
         }
 
+
+        ctx.fill();
+
     }
 
 
-    /*
-       PHASE 2
+    /* ==================================================
+       1.2 - 3.2 SEC
        EXACTLY 2 SECOND WAIT
-    */
+    ================================================== */
 
     else if (elapsed < 3200) {
 
-        ctx.fillStyle = "#fff";
+        ctx.beginPath();
 
 
         for (const star of stars) {
@@ -1004,13 +1009,16 @@ function animateStars(now) {
 
         }
 
+
+        ctx.fill();
+
     }
 
 
-    /*
-       PHASE 3
+    /* ==================================================
+       3.2+ SEC
        FORM QUADRO BRO'S
-    */
+    ================================================== */
 
     else {
 
@@ -1019,10 +1027,10 @@ function animateStars(now) {
 
 
         const duration =
-            2500;
+            2600;
 
 
-        let progress =
+        const progress =
             Math.min(
                 formElapsed /
                 duration,
@@ -1030,17 +1038,13 @@ function animateStars(now) {
             );
 
 
-        /*
-           Smooth movement
-        */
-
         const eased =
             progress *
             progress *
             (3 - 2 * progress);
 
 
-        ctx.fillStyle = "#fff";
+        ctx.beginPath();
 
 
         for (const star of stars) {
@@ -1085,6 +1089,9 @@ function animateStars(now) {
 
         }
 
+
+        ctx.fill();
+
     }
 
 
@@ -1095,13 +1102,14 @@ function animateStars(now) {
 }
 
 
-/* =========================
+/* ==================================================
    TIMELINE
-========================= */
+================================================== */
 
 
 /*
-   Camera zoom
+   0.3 SEC:
+   START ZOOM
 */
 
 setTimeout(() => {
@@ -1109,24 +1117,21 @@ setTimeout(() => {
     camera.style.transform =
         "scale(3.2)";
 
-}, 300);
 
-
-/*
-   Doors open
-*/
-
-setTimeout(() => {
+    /*
+       DOORS START OPENING
+       AT THE SAME TIME AS ZOOM
+    */
 
     entrance.classList.add(
         "doors-open"
     );
 
-}, 2300);
+}, 300);
 
 
 /*
-   Box appears
+   CHEST APPEARS MID-ZOOM
 */
 
 setTimeout(() => {
@@ -1135,7 +1140,7 @@ setTimeout(() => {
         "appear"
     );
 
-}, 3600);
+}, 1500);
 
 
 /*
@@ -1156,7 +1161,7 @@ setTimeout(() => {
         "shake1"
     );
 
-}, 4500);
+}, 2500);
 
 
 /*
@@ -1175,7 +1180,7 @@ setTimeout(() => {
         "shake2"
     );
 
-}, 5100);
+}, 3100);
 
 
 /*
@@ -1194,7 +1199,7 @@ setTimeout(() => {
         "shake3"
     );
 
-}, 5700);
+}, 3700);
 
 
 /*
@@ -1207,12 +1212,12 @@ setTimeout(() => {
 
     startExplosion();
 
-}, 6100);
+}, 4300);
 
 
-/* =========================
+/* ==================================================
    RESIZE
-========================= */
+================================================== */
 
 window.addEventListener(
     "resize",
@@ -1225,8 +1230,11 @@ window.addEventListener(
             window.innerHeight;
 
 
-        canvas.width = width;
-        canvas.height = height;
+        canvas.width =
+            width;
+
+        canvas.height =
+            height;
 
 
         targets =
@@ -1238,15 +1246,19 @@ window.addEventListener(
 
                 const target =
                     targets[
-                        i % targets.length
+                        i %
+                        targets.length
                     ];
 
 
                 star.targetX =
-                    target.x;
+                    target.x -
+                    width / 2;
+
 
                 star.targetY =
-                    target.y;
+                    target.y -
+                    height / 2;
 
             }
         );
