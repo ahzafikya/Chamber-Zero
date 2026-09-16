@@ -1,99 +1,242 @@
 <!DOCTYPE html>
 <html>
 <head>
-<title>Quadro Bro's</title>
+    <title>Quadro Bro's</title>
 
 <style>
 * {
     box-sizing: border-box;
 }
 
-body {
+html, body {
     margin: 0;
+    width: 100%;
+    height: 100%;
     overflow: hidden;
-    background: #000;
+    background: #050505;
     font-family: Arial, sans-serif;
 }
 
-/* ================= BACKGROUND ================= */
+/* ================= SCENE ================= */
 
 .scene {
     width: 100vw;
     height: 100vh;
     position: relative;
     overflow: hidden;
-    background:
-        linear-gradient(#111, #050505);
+    background: #080808;
 }
 
-/* Building */
+/* ================= REALISTIC BUILDING ================= */
 
 .building {
     position: absolute;
-    width: 100%;
-    height: 100%;
+    inset: 0;
     background:
-        repeating-linear-gradient(
+        linear-gradient(
             90deg,
-            transparent 0px,
-            transparent 75px,
-            rgba(255,255,255,.04) 76px,
-            rgba(255,255,255,.04) 78px
+            rgba(0,0,0,.45),
+            transparent 25%,
+            transparent 75%,
+            rgba(0,0,0,.5)
         ),
         repeating-linear-gradient(
             0deg,
-            transparent 0px,
-            transparent 70px,
-            rgba(255,255,255,.04) 71px,
-            rgba(255,255,255,.04) 73px
+            rgba(255,255,255,.025) 0px,
+            rgba(255,255,255,.025) 2px,
+            transparent 2px,
+            transparent 7px
         ),
-        #151515;
+        linear-gradient(
+            180deg,
+            #303030 0%,
+            #222 45%,
+            #171717 100%
+        );
+
+    box-shadow:
+        inset 0 0 120px #000;
 }
 
-/* Windows */
+/* Concrete wall texture */
+
+.building::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    opacity: .25;
+
+    background:
+        radial-gradient(
+            circle at 20% 30%,
+            #777 0,
+            transparent 2%
+        ),
+        radial-gradient(
+            circle at 70% 65%,
+            #555 0,
+            transparent 2%
+        ),
+        radial-gradient(
+            circle at 45% 80%,
+            #444 0,
+            transparent 3%
+        );
+
+    background-size: 180px 150px;
+}
+
+/* ================= WINDOWS ================= */
 
 .window {
     position: absolute;
-    width: 55px;
-    height: 80px;
-    background: #080808;
-    border: 2px solid #292929;
-    box-shadow: inset 0 0 20px #000;
+    width: 70px;
+    height: 100px;
+
+    background:
+        linear-gradient(
+            135deg,
+            #171717,
+            #020202
+        );
+
+    border: 4px solid #111;
+
+    box-shadow:
+        inset 0 0 20px #000,
+        0 5px 15px rgba(0,0,0,.7);
 }
 
-/* Front entrance */
+/* ================= CONCRETE GROUND ================= */
+
+.ground {
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    height: 34%;
+
+    background:
+        repeating-linear-gradient(
+            105deg,
+            transparent 0px,
+            transparent 70px,
+            rgba(255,255,255,.025) 72px,
+            transparent 74px
+        ),
+        repeating-linear-gradient(
+            15deg,
+            transparent 0px,
+            transparent 90px,
+            rgba(255,255,255,.02) 92px,
+            transparent 94px
+        ),
+        #101010;
+
+    box-shadow:
+        inset 0 20px 40px rgba(0,0,0,.8);
+}
+
+/* Concrete cracks */
+
+.crack {
+    position: absolute;
+    height: 2px;
+    background: #292929;
+    transform-origin: left;
+}
+
+/* ================= ENTRANCE ================= */
 
 .entrance {
     position: absolute;
+
     left: 50%;
-    top: 50%;
-    width: 420px;
-    height: 600px;
-    transform: translate(-50%, -50%);
-    perspective: 1000px;
+    bottom: 0;
+
+    width: 440px;
+    height: 610px;
+
+    transform: translateX(-50%);
+    perspective: 1200px;
 }
 
-/* Door frame */
+/* Entrance frame */
 
 .frame {
     position: absolute;
     inset: 0;
-    border: 15px solid #080808;
-    background: #000;
+
+    background: #090909;
+
+    border:
+        18px solid #0b0b0b;
+
+    box-shadow:
+        0 0 50px #000,
+        inset 0 0 40px #000;
 }
 
-/* Doors */
+/* Darkness inside */
+
+.inside {
+    position: absolute;
+
+    left: 18px;
+    right: 18px;
+    top: 18px;
+    bottom: 18px;
+
+    background:
+        radial-gradient(
+            ellipse at center,
+            #111 0%,
+            #020202 70%
+        );
+}
+
+/* ================= DOORS ================= */
 
 .door {
     position: absolute;
-    top: 15px;
-    bottom: 15px;
+
+    bottom: 18px;
+    top: 18px;
+
     width: 50%;
+
     background:
-        linear-gradient(90deg, #242424, #090909);
-    border: 3px solid #333;
+        linear-gradient(
+            90deg,
+            #363636,
+            #181818 45%,
+            #292929
+        );
+
+    border: 3px solid #080808;
+
+    box-shadow:
+        inset 0 0 25px rgba(0,0,0,.8),
+        0 10px 20px rgba(0,0,0,.7);
+
     z-index: 5;
-    transition: transform 2s cubic-bezier(.15,.8,.2,1);
+
+    transition:
+        transform 1.7s cubic-bezier(.12,.75,.2,1);
+}
+
+/* Door panels */
+
+.door::after {
+    content: "";
+
+    position: absolute;
+    inset: 25px;
+
+    border: 2px solid #111;
+
+    box-shadow:
+        inset 0 0 20px #000;
 }
 
 .leftDoor {
@@ -106,214 +249,304 @@ body {
     transform-origin: right center;
 }
 
+/* Doors open */
+
 .open .leftDoor {
-    transform: rotateY(-110deg);
+    transform: rotateY(-105deg);
 }
 
 .open .rightDoor {
-    transform: rotateY(110deg);
-}
-
-/* Darkness behind doors */
-
-.inside {
-    position: absolute;
-    inset: 15px;
-    background: #000;
+    transform: rotateY(105deg);
 }
 
 /* ================= BOX ================= */
 
 .box {
     position: absolute;
+
     left: 50%;
-    top: 54%;
-    width: 180px;
-    height: 180px;
-    transform: translate(-50%, -50%) scale(.2);
+    bottom: 85px;
+
+    width: 170px;
+    height: 170px;
+
+    transform:
+        translateX(-50%)
+        scale(.3);
+
     opacity: 0;
+
     z-index: 20;
+
+    box-shadow:
+        0 25px 40px rgba(0,0,0,.8);
+
+    transition:
+        opacity .7s,
+        transform .7s;
 }
 
 .box.show {
-    animation: boxAppear 1s forwards;
-}
+    opacity: 1;
 
-.box.shake {
-    animation: shake .7s;
-}
-
-@keyframes boxAppear {
-    from {
-        opacity: 0;
-        transform: translate(-50%, -50%) scale(.2);
-    }
-
-    to {
-        opacity: 1;
-        transform: translate(-50%, -50%) scale(1);
-    }
+    transform:
+        translateX(-50%)
+        scale(1);
 }
 
 /* Black top */
 
 .boxTop {
     height: 50%;
-    background: #050505;
-    border: 5px solid #777;
-    border-bottom: 0;
+
+    background:
+        linear-gradient(
+            135deg,
+            #111,
+            #000
+        );
+
+    border:
+        5px solid #555;
+
+    border-bottom: 2px solid #222;
 }
 
-/* White lower */
+/* White bottom */
 
 .boxBottom {
     height: 50%;
-    background: #eee;
-    border: 5px solid #777;
-    border-top: 2px solid #222;
+
+    background:
+        linear-gradient(
+            135deg,
+            #fff,
+            #cfcfcf
+        );
+
+    border:
+        5px solid #555;
+
+    border-top: 0;
 }
 
 /* Gray button */
 
 .button {
     position: absolute;
-    width: 45px;
-    height: 45px;
+
+    width: 48px;
+    height: 48px;
+
     left: 50%;
     top: 50%;
-    transform: translate(-50%, -50%);
+
+    transform:
+        translate(-50%, -50%);
+
     border-radius: 50%;
-    background: #777;
+
+    background:
+        radial-gradient(
+            circle at 35% 30%,
+            #aaa,
+            #555
+        );
+
     border: 6px solid #222;
-    box-shadow: 0 0 15px #aaa;
+
+    box-shadow:
+        0 0 15px rgba(255,255,255,.25);
 }
 
-/* Shake */
+/* ================= BOX SHAKE ================= */
+
+.box.shake {
+    animation: shake .75s ease-in-out;
+}
 
 @keyframes shake {
-    0%   { transform: translate(-50%, -50%) rotate(0); }
-    15%  { transform: translate(-55%, -50%) rotate(-5deg); }
-    30%  { transform: translate(-45%, -50%) rotate(5deg); }
-    45%  { transform: translate(-55%, -50%) rotate(-5deg); }
-    60%  { transform: translate(-45%, -50%) rotate(5deg); }
-    75%  { transform: translate(-52%, -50%) rotate(-3deg); }
-    100% { transform: translate(-50%, -50%) rotate(0); }
+
+    0% {
+        transform: translateX(-50%) rotate(0);
+    }
+
+    15% {
+        transform: translateX(calc(-50% - 13px)) rotate(-5deg);
+    }
+
+    30% {
+        transform: translateX(calc(-50% + 13px)) rotate(5deg);
+    }
+
+    45% {
+        transform: translateX(calc(-50% - 12px)) rotate(-5deg);
+    }
+
+    60% {
+        transform: translateX(calc(-50% + 12px)) rotate(5deg);
+    }
+
+    75% {
+        transform: translateX(calc(-50% - 6px)) rotate(-2deg);
+    }
+
+    100% {
+        transform: translateX(-50%) rotate(0);
+    }
 }
 
 /* ================= STARS ================= */
 
 .star {
     position: absolute;
-    width: 8px;
-    height: 8px;
+
+    left: 50%;
+    top: calc(100% - 170px);
+
+    width: 7px;
+    height: 7px;
+
     background: white;
+
     clip-path: polygon(
         50% 0%,
-        61% 38%,
+        62% 38%,
         100% 50%,
-        61% 62%,
+        62% 62%,
         50% 100%,
-        39% 62%,
+        38% 62%,
         0% 50%,
-        39% 38%
+        38% 38%
     );
-    left: 50%;
-    top: 54%;
+
     opacity: 0;
+
     z-index: 30;
+
+    --random-x: 0px;
+    --random-y: 0px;
 }
+
+/* Explosion */
 
 .explode .star {
-    animation: explode 1.5s forwards;
+    opacity: 1;
+
+    animation:
+        starExplosion 1.2s
+        cubic-bezier(.1,.7,.2,1)
+        forwards;
 }
 
-@keyframes explode {
+@keyframes starExplosion {
+
     0% {
-        opacity: 1;
-        transform: translate(0,0) scale(.5);
+        transform:
+            translate(-50%, -50%)
+            scale(.2);
     }
 
     100% {
-        opacity: 1;
         transform:
             translate(
-                calc((var(--x) - 50) * 1vw),
-                calc((var(--y) - 50) * 1vh)
+                var(--random-x),
+                var(--random-y)
             )
-            scale(1.5);
+            scale(1.2);
     }
 }
 
-/* ================= TEXT ================= */
+/* ================= FORM SENTENCE ================= */
 
-.finalText {
-    position: absolute;
-    left: 50%;
-    top: 50%;
-    transform: translate(-50%, -50%);
-    color: white;
-    font-size: 70px;
-    font-weight: bold;
-    letter-spacing: 12px;
-    opacity: 0;
-    z-index: 50;
-    white-space: nowrap;
-    text-shadow:
-        0 0 10px white,
-        0 0 30px white;
+.formSentence .star {
+    animation:
+        formText 2.5s
+        cubic-bezier(.2,.8,.2,1)
+        forwards;
 }
 
-.finalText.show {
-    animation: textReveal 2s forwards;
-}
+@keyframes formText {
 
-@keyframes textReveal {
     0% {
-        opacity: 0;
-        transform: translate(-50%, -50%) scale(.5);
-        letter-spacing: 30px;
+        transform:
+            translate(
+                var(--random-x),
+                var(--random-y)
+            )
+            scale(1.2);
     }
 
     100% {
-        opacity: 1;
-        transform: translate(-50%, -50%) scale(1);
-        letter-spacing: 12px;
+        transform:
+            translate(
+                var(--text-x),
+                var(--text-y)
+            )
+            scale(.9);
     }
 }
 
-/* Camera zoom */
+/* ================= CAMERA ================= */
 
-.scene.zoom {
-    animation: zoomIn 3s forwards;
+.zoom {
+    animation:
+        cameraZoom 3s
+        cubic-bezier(.2,.7,.2,1)
+        forwards;
 }
 
-@keyframes zoomIn {
-    from {
+@keyframes cameraZoom {
+
+    0% {
         transform: scale(1);
     }
 
-    to {
-        transform: scale(1.5);
+    100% {
+        transform: scale(1.35);
     }
 }
 
 </style>
 </head>
 
+
 <body>
 
 <div class="scene" id="scene">
 
+    <!-- BUILDING -->
+
     <div class="building">
 
         <div class="window" style="left:8%;top:12%;"></div>
-        <div class="window" style="left:25%;top:20%;"></div>
-        <div class="window" style="left:72%;top:14%;"></div>
-        <div class="window" style="left:88%;top:30%;"></div>
-        <div class="window" style="left:12%;top:55%;"></div>
-        <div class="window" style="left:80%;top:60%;"></div>
+        <div class="window" style="left:23%;top:20%;"></div>
+        <div class="window" style="left:75%;top:13%;"></div>
+        <div class="window" style="left:88%;top:27%;"></div>
+        <div class="window" style="left:10%;top:55%;"></div>
+        <div class="window" style="left:82%;top:58%;"></div>
 
     </div>
+
+    <!-- GROUND -->
+
+    <div class="ground">
+
+        <div class="crack"
+             style="width:150px;left:10%;top:40%;transform:rotate(20deg)">
+        </div>
+
+        <div class="crack"
+             style="width:100px;left:70%;top:25%;transform:rotate(-15deg)">
+        </div>
+
+        <div class="crack"
+             style="width:180px;left:45%;top:70%;transform:rotate(5deg)">
+        </div>
+
+    </div>
+
+    <!-- ENTRANCE -->
 
     <div class="entrance" id="entrance">
 
@@ -326,58 +559,112 @@ body {
 
     </div>
 
+
+    <!-- BOX -->
+
     <div class="box" id="box">
+
         <div class="boxTop"></div>
+
         <div class="boxBottom"></div>
+
         <div class="button"></div>
+
     </div>
+
+
+    <!-- STARS -->
 
     <div id="stars"></div>
-
-    <div class="finalText" id="finalText">
-        Quadro Bro's
-    </div>
 
 </div>
 
 
 <script>
 
-const entrance = document.getElementById("entrance");
-const box = document.getElementById("box");
-const scene = document.getElementById("scene");
-const stars = document.getElementById("stars");
-const finalText = document.getElementById("finalText");
+/* ================= SETUP ================= */
+
+const entrance =
+    document.getElementById("entrance");
+
+const box =
+    document.getElementById("box");
+
+const scene =
+    document.getElementById("scene");
+
+const stars =
+    document.getElementById("stars");
 
 
 /* ================= CREATE STARS ================= */
 
-for (let i = 0; i < 100; i++) {
+const starCount = 120;
 
-    const star = document.createElement("div");
+for (let i = 0; i < starCount; i++) {
+
+    const star =
+        document.createElement("div");
 
     star.className = "star";
 
+    /*
+       Explosion destinations
+    */
+
+    const x =
+        (Math.random() * 900) - 450;
+
+    const y =
+        (Math.random() * 600) - 300;
+
     star.style.setProperty(
-        "--x",
-        Math.random() * 160 - 30
+        "--random-x",
+        x + "px"
     );
 
     star.style.setProperty(
-        "--y",
-        Math.random() * 160 - 30
+        "--random-y",
+        y + "px"
     );
 
-    star.style.animationDelay =
-        Math.random() * .3 + "s";
+
+    /*
+       Text position.
+
+       Stars are distributed across
+       the approximate shape of:
+
+       "Quadro Bro's"
+    */
+
+    const textWidth = 520;
+
+    const textX =
+        (Math.random() - .5) * textWidth;
+
+    const textY =
+        (Math.random() - .5) * 100;
+
+    star.style.setProperty(
+        "--text-x",
+        textX + "px"
+    );
+
+    star.style.setProperty(
+        "--text-y",
+        textY + "px"
+    );
 
     stars.appendChild(star);
 }
 
 
-/* ================= INTRO ================= */
+/* ================= DOORS ================= */
 
-/* Doors open */
+/*
+   Doors open from the floor.
+*/
 
 setTimeout(() => {
 
@@ -385,44 +672,59 @@ setTimeout(() => {
 
     scene.classList.add("zoom");
 
-}, 1200);
+}, 900);
 
 
-/* Box appears */
+/* ================= BOX ================= */
+
+/*
+   Box appears after doors open.
+*/
 
 setTimeout(() => {
 
     box.classList.add("show");
 
-}, 3000);
+}, 2400);
 
 
-/* Shake the box 4 times */
+/* ================= SHAKE 4 TIMES ================= */
 
 setTimeout(() => {
 
     let shakes = 0;
 
-    const shakeInterval = setInterval(() => {
+    const interval =
+        setInterval(() => {
 
-        box.classList.remove("shake");
+            box.classList.remove("shake");
 
-        void box.offsetWidth;
+            /*
+               Force browser to restart animation.
+            */
 
-        box.classList.add("shake");
+            void box.offsetWidth;
 
-        shakes++;
+            box.classList.add("shake");
 
-        if (shakes >= 4) {
-            clearInterval(shakeInterval);
-        }
+            shakes++;
 
-    }, 800);
+            if (shakes >= 4) {
 
-}, 4200);
+                clearInterval(interval);
+
+            }
+
+        }, 850);
+
+}, 3300);
 
 
-/* EXPLOSION */
+/* ================= EXPLOSION ================= */
+
+/*
+   Stars come OUT OF THE BOX immediately.
+*/
 
 setTimeout(() => {
 
@@ -430,16 +732,21 @@ setTimeout(() => {
 
     stars.classList.add("explode");
 
-}, 7600);
+}, 6800);
 
 
-/* Text forms after 2 seconds */
+/* ================= WAIT 3 SECONDS ================= */
+
+/*
+   After the stars have exploded,
+   wait 3 seconds before forming the words.
+*/
 
 setTimeout(() => {
 
-    finalText.classList.add("show");
+    stars.classList.add("formSentence");
 
-}, 9600);
+}, 10000);
 
 </script>
 
