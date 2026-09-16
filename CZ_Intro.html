@@ -60,13 +60,8 @@ html, body {
 
     background-color: #101010;
 
-    /*
-       Realistic dark brick wall
-    */
-
     background-image:
 
-        /* horizontal mortar */
         repeating-linear-gradient(
             to bottom,
             transparent 0px,
@@ -75,7 +70,6 @@ html, body {
             #050505 51px
         ),
 
-        /* vertical brick joints */
         repeating-linear-gradient(
             90deg,
             transparent 0px,
@@ -84,7 +78,6 @@ html, body {
             #070707 99px
         ),
 
-        /* offset brick rows */
         repeating-linear-gradient(
             90deg,
             transparent 0px,
@@ -93,7 +86,6 @@ html, body {
             rgba(0,0,0,.7) 99px
         ),
 
-        /* wall lighting */
         radial-gradient(
             ellipse at 50% 35%,
             #343434 0%,
@@ -119,10 +111,6 @@ html, body {
         inset 0 -80px 120px #000;
 }
 
-
-/* ==================================================
-   SUBTLE WALL TEXTURE
-================================================== */
 
 .building::after {
     content: "";
@@ -153,20 +141,15 @@ html, body {
     position: absolute;
 
     left: -15%;
-    bottom: -20%;
+    bottom: -8%;
 
     width: 130%;
-    height: 58%;
+    height: 62%;
 
     background-color: #090909;
 
-    /*
-       Black floor bricks
-    */
-
     background-image:
 
-        /* horizontal joints */
         repeating-linear-gradient(
             to bottom,
             transparent 0px,
@@ -175,7 +158,6 @@ html, body {
             #020202 59px
         ),
 
-        /* vertical joints */
         repeating-linear-gradient(
             90deg,
             transparent 0px,
@@ -184,7 +166,6 @@ html, body {
             #020202 111px
         ),
 
-        /* subtle floor lighting */
         linear-gradient(
             to bottom,
             #181818 0%,
@@ -241,10 +222,6 @@ html, body {
     transform-style: preserve-3d;
 }
 
-
-/* ==================================================
-   INNER ENTRANCE SHADOW
-================================================== */
 
 .entrance::after {
     content: "";
@@ -319,10 +296,6 @@ html, body {
 }
 
 
-/* ==================================================
-   DOOR METAL TEXTURE
-================================================== */
-
 .door::after {
     content: "";
 
@@ -342,10 +315,6 @@ html, body {
     pointer-events: none;
 }
 
-
-/* ==================================================
-   DOOR PANELS
-================================================== */
 
 .door::before {
     content: "";
@@ -373,10 +342,6 @@ html, body {
     pointer-events: none;
 }
 
-
-/* ==================================================
-   DOOR INNER PANEL
-================================================== */
 
 .door .handle::before {
     content: "";
@@ -483,8 +448,9 @@ html, body {
     left: 50%;
     top: 50%;
 
-    width: 110px;
-    height: 110px;
+    /* MADE BIGGER + RECTANGULAR */
+    width: 150px;
+    height: 125px;
 
     transform:
         translate(-50%, -50%)
@@ -517,7 +483,7 @@ html, body {
         );
 
     border-radius:
-        14px 14px 0 0;
+        16px 16px 0 0;
 
     border: 3px solid #000;
 
@@ -548,7 +514,7 @@ html, body {
         );
 
     border-radius:
-        0 0 14px 14px;
+        0 0 16px 16px;
 
     border: 3px solid #000;
 
@@ -567,8 +533,8 @@ html, body {
     left: 50%;
     top: 50%;
 
-    width: 32px;
-    height: 32px;
+    width: 36px;
+    height: 36px;
 
     transform:
         translate(-50%, -50%);
@@ -1322,11 +1288,6 @@ setTimeout(() => {
     camera.style.transform =
         "scale(3.2)";
 
-
-    /*
-       DOORS START PULLING OPEN
-       AT THE SAME TIME AS ZOOM
-    */
 
     entrance.classList.add(
         "doors-open"
