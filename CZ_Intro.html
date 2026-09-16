@@ -1,98 +1,447 @@
+<!DOCTYPE html>
 <html>
 <head>
-    <title>Ravyn's Gang</title>
+<title>Quadro Bro's</title>
 
-    <style>
-        body {
-            margin: 0;
-            background: #050505;
-            color: white;
-            font-family: Arial, sans-serif;
-            height: 100vh;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            overflow: hidden;
-        }
+<style>
+* {
+    box-sizing: border-box;
+}
 
-        .intro {
-            text-align: center;
-        }
+body {
+    margin: 0;
+    overflow: hidden;
+    background: #000;
+    font-family: Arial, sans-serif;
+}
 
-        .word {
-            font-size: 32px;
-            letter-spacing: 8px;
-            opacity: 0;
-            animation: appear 1.5s forwards;
-        }
+/* ================= BACKGROUND ================= */
 
-        .word:nth-child(1) {
-            animation-delay: 1s;
-        }
+.scene {
+    width: 100vw;
+    height: 100vh;
+    position: relative;
+    overflow: hidden;
+    background:
+        linear-gradient(#111, #050505);
+}
 
-        .word:nth-child(2) {
-            animation-delay: 3s;
-        }
+/* Building */
 
-        .word:nth-child(3) {
-            animation-delay: 5s;
-        }
+.building {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    background:
+        repeating-linear-gradient(
+            90deg,
+            transparent 0px,
+            transparent 75px,
+            rgba(255,255,255,.04) 76px,
+            rgba(255,255,255,.04) 78px
+        ),
+        repeating-linear-gradient(
+            0deg,
+            transparent 0px,
+            transparent 70px,
+            rgba(255,255,255,.04) 71px,
+            rgba(255,255,255,.04) 73px
+        ),
+        #151515;
+}
 
-        .title {
-            margin-top: 30px;
-            font-size: 70px;
-            font-weight: bold;
-            letter-spacing: 12px;
-            opacity: 0;
-            animation: titleAppear 2s forwards;
-            animation-delay: 7s;
-        }
+/* Windows */
 
-        @keyframes appear {
-            0% {
-                opacity: 0;
-                transform: translateY(20px);
-            }
+.window {
+    position: absolute;
+    width: 55px;
+    height: 80px;
+    background: #080808;
+    border: 2px solid #292929;
+    box-shadow: inset 0 0 20px #000;
+}
 
-            50% {
-                opacity: 1;
-            }
+/* Front entrance */
 
-            100% {
-                opacity: 0;
-                transform: translateY(-20px);
-            }
-        }
+.entrance {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    width: 420px;
+    height: 600px;
+    transform: translate(-50%, -50%);
+    perspective: 1000px;
+}
 
-        @keyframes titleAppear {
-            0% {
-                opacity: 0;
-                transform: scale(0.8);
-            }
+/* Door frame */
 
-            100% {
-                opacity: 1;
-                transform: scale(1);
-            }
-        }
-    </style>
+.frame {
+    position: absolute;
+    inset: 0;
+    border: 15px solid #080808;
+    background: #000;
+}
+
+/* Doors */
+
+.door {
+    position: absolute;
+    top: 15px;
+    bottom: 15px;
+    width: 50%;
+    background:
+        linear-gradient(90deg, #242424, #090909);
+    border: 3px solid #333;
+    z-index: 5;
+    transition: transform 2s cubic-bezier(.15,.8,.2,1);
+}
+
+.leftDoor {
+    left: 0;
+    transform-origin: left center;
+}
+
+.rightDoor {
+    right: 0;
+    transform-origin: right center;
+}
+
+.open .leftDoor {
+    transform: rotateY(-110deg);
+}
+
+.open .rightDoor {
+    transform: rotateY(110deg);
+}
+
+/* Darkness behind doors */
+
+.inside {
+    position: absolute;
+    inset: 15px;
+    background: #000;
+}
+
+/* ================= BOX ================= */
+
+.box {
+    position: absolute;
+    left: 50%;
+    top: 54%;
+    width: 180px;
+    height: 180px;
+    transform: translate(-50%, -50%) scale(.2);
+    opacity: 0;
+    z-index: 20;
+}
+
+.box.show {
+    animation: boxAppear 1s forwards;
+}
+
+.box.shake {
+    animation: shake .7s;
+}
+
+@keyframes boxAppear {
+    from {
+        opacity: 0;
+        transform: translate(-50%, -50%) scale(.2);
+    }
+
+    to {
+        opacity: 1;
+        transform: translate(-50%, -50%) scale(1);
+    }
+}
+
+/* Black top */
+
+.boxTop {
+    height: 50%;
+    background: #050505;
+    border: 5px solid #777;
+    border-bottom: 0;
+}
+
+/* White lower */
+
+.boxBottom {
+    height: 50%;
+    background: #eee;
+    border: 5px solid #777;
+    border-top: 2px solid #222;
+}
+
+/* Gray button */
+
+.button {
+    position: absolute;
+    width: 45px;
+    height: 45px;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    border-radius: 50%;
+    background: #777;
+    border: 6px solid #222;
+    box-shadow: 0 0 15px #aaa;
+}
+
+/* Shake */
+
+@keyframes shake {
+    0%   { transform: translate(-50%, -50%) rotate(0); }
+    15%  { transform: translate(-55%, -50%) rotate(-5deg); }
+    30%  { transform: translate(-45%, -50%) rotate(5deg); }
+    45%  { transform: translate(-55%, -50%) rotate(-5deg); }
+    60%  { transform: translate(-45%, -50%) rotate(5deg); }
+    75%  { transform: translate(-52%, -50%) rotate(-3deg); }
+    100% { transform: translate(-50%, -50%) rotate(0); }
+}
+
+/* ================= STARS ================= */
+
+.star {
+    position: absolute;
+    width: 8px;
+    height: 8px;
+    background: white;
+    clip-path: polygon(
+        50% 0%,
+        61% 38%,
+        100% 50%,
+        61% 62%,
+        50% 100%,
+        39% 62%,
+        0% 50%,
+        39% 38%
+    );
+    left: 50%;
+    top: 54%;
+    opacity: 0;
+    z-index: 30;
+}
+
+.explode .star {
+    animation: explode 1.5s forwards;
+}
+
+@keyframes explode {
+    0% {
+        opacity: 1;
+        transform: translate(0,0) scale(.5);
+    }
+
+    100% {
+        opacity: 1;
+        transform:
+            translate(
+                calc((var(--x) - 50) * 1vw),
+                calc((var(--y) - 50) * 1vh)
+            )
+            scale(1.5);
+    }
+}
+
+/* ================= TEXT ================= */
+
+.finalText {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    color: white;
+    font-size: 70px;
+    font-weight: bold;
+    letter-spacing: 12px;
+    opacity: 0;
+    z-index: 50;
+    white-space: nowrap;
+    text-shadow:
+        0 0 10px white,
+        0 0 30px white;
+}
+
+.finalText.show {
+    animation: textReveal 2s forwards;
+}
+
+@keyframes textReveal {
+    0% {
+        opacity: 0;
+        transform: translate(-50%, -50%) scale(.5);
+        letter-spacing: 30px;
+    }
+
+    100% {
+        opacity: 1;
+        transform: translate(-50%, -50%) scale(1);
+        letter-spacing: 12px;
+    }
+}
+
+/* Camera zoom */
+
+.scene.zoom {
+    animation: zoomIn 3s forwards;
+}
+
+@keyframes zoomIn {
+    from {
+        transform: scale(1);
+    }
+
+    to {
+        transform: scale(1.5);
+    }
+}
+
+</style>
 </head>
 
 <body>
 
-    <div class="intro">
+<div class="scene" id="scene">
 
-        <div class="word">THEY WATCH</div>
+    <div class="building">
 
-        <div class="word">THEY HUNT</div>
-
-        <div class="word">THEY NEVER MISS</div>
-
-        <div class="title">
-            RAVYN'S GANG
-        </div>
+        <div class="window" style="left:8%;top:12%;"></div>
+        <div class="window" style="left:25%;top:20%;"></div>
+        <div class="window" style="left:72%;top:14%;"></div>
+        <div class="window" style="left:88%;top:30%;"></div>
+        <div class="window" style="left:12%;top:55%;"></div>
+        <div class="window" style="left:80%;top:60%;"></div>
 
     </div>
+
+    <div class="entrance" id="entrance">
+
+        <div class="frame"></div>
+
+        <div class="inside"></div>
+
+        <div class="door leftDoor"></div>
+        <div class="door rightDoor"></div>
+
+    </div>
+
+    <div class="box" id="box">
+        <div class="boxTop"></div>
+        <div class="boxBottom"></div>
+        <div class="button"></div>
+    </div>
+
+    <div id="stars"></div>
+
+    <div class="finalText" id="finalText">
+        Quadro Bro's
+    </div>
+
+</div>
+
+
+<script>
+
+const entrance = document.getElementById("entrance");
+const box = document.getElementById("box");
+const scene = document.getElementById("scene");
+const stars = document.getElementById("stars");
+const finalText = document.getElementById("finalText");
+
+
+/* ================= CREATE STARS ================= */
+
+for (let i = 0; i < 100; i++) {
+
+    const star = document.createElement("div");
+
+    star.className = "star";
+
+    star.style.setProperty(
+        "--x",
+        Math.random() * 160 - 30
+    );
+
+    star.style.setProperty(
+        "--y",
+        Math.random() * 160 - 30
+    );
+
+    star.style.animationDelay =
+        Math.random() * .3 + "s";
+
+    stars.appendChild(star);
+}
+
+
+/* ================= INTRO ================= */
+
+/* Doors open */
+
+setTimeout(() => {
+
+    entrance.classList.add("open");
+
+    scene.classList.add("zoom");
+
+}, 1200);
+
+
+/* Box appears */
+
+setTimeout(() => {
+
+    box.classList.add("show");
+
+}, 3000);
+
+
+/* Shake the box 4 times */
+
+setTimeout(() => {
+
+    let shakes = 0;
+
+    const shakeInterval = setInterval(() => {
+
+        box.classList.remove("shake");
+
+        void box.offsetWidth;
+
+        box.classList.add("shake");
+
+        shakes++;
+
+        if (shakes >= 4) {
+            clearInterval(shakeInterval);
+        }
+
+    }, 800);
+
+}, 4200);
+
+
+/* EXPLOSION */
+
+setTimeout(() => {
+
+    box.style.opacity = "0";
+
+    stars.classList.add("explode");
+
+}, 7600);
+
+
+/* Text forms after 2 seconds */
+
+setTimeout(() => {
+
+    finalText.classList.add("show");
+
+}, 9600);
+
+</script>
 
 </body>
 </html>
