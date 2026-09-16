@@ -1,557 +1,530 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Quadro Bro's</title>
 
 <style>
 * {
+    margin: 0;
+    padding: 0;
     box-sizing: border-box;
 }
 
 html, body {
-    margin: 0;
     width: 100%;
     height: 100%;
     overflow: hidden;
-    background: #050505;
-    font-family: Arial, sans-serif;
+    background: #000;
 }
 
 .scene {
     position: relative;
     width: 100vw;
     height: 100vh;
+    background: #111;
     overflow: hidden;
-    background: #101010;
+}
+
+/* CAMERA */
+.camera {
+    position: absolute;
+    inset: 0;
+    transform-origin: center center;
+    transform: scale(1);
+    transition: transform 3s cubic-bezier(.65,0,.2,1);
 }
 
 /* BUILDING */
-
 .building {
     position: absolute;
-    inset: 0;
-
+    width: 100%;
+    height: 82%;
+    top: 0;
     background:
+        linear-gradient(#292929, #111);
+    border-bottom: 12px solid #090909;
+}
+
+/* concrete texture */
+.building::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    opacity: .12;
+    background-image:
         repeating-linear-gradient(
             0deg,
-            rgba(255,255,255,.025) 0px,
-            rgba(255,255,255,.025) 2px,
-            transparent 2px,
-            transparent 8px
-        ),
-        linear-gradient(
-            90deg,
-            #141414,
-            #292929 50%,
-            #111111
+            transparent 0px,
+            transparent 9px,
+            #aaa 10px,
+            transparent 11px
         );
-
-    box-shadow: inset 0 0 120px #000;
 }
 
 /* GROUND */
-
 .ground {
     position: absolute;
     bottom: 0;
-    left: 0;
     width: 100%;
-    height: 37%;
-
+    height: 22%;
     background:
-        repeating-linear-gradient(
-            110deg,
-            transparent 0px,
-            transparent 75px,
-            rgba(255,255,255,.025) 77px,
-            transparent 79px
-        ),
-        repeating-linear-gradient(
-            15deg,
-            transparent 0px,
-            transparent 100px,
-            rgba(255,255,255,.02) 102px,
-            transparent 104px
-        ),
-        #0c0c0c;
-
-    box-shadow: inset 0 25px 50px #000;
+        linear-gradient(#171717, #050505);
 }
 
-/* DOOR */
-
+/* ENTRANCE */
 .entrance {
     position: absolute;
-
     left: 50%;
-    bottom: 0;
-
-    width: 440px;
-    height: 600px;
-
+    bottom: 18%;
+    width: 420px;
+    height: 520px;
     transform: translateX(-50%);
-    perspective: 1400px;
-}
-
-.frame {
-    position: absolute;
-    inset: 0;
-
-    background: #070707;
-    border: 18px solid #090909;
-
+    background: #050505;
     box-shadow:
-        0 0 60px #000,
-        inset 0 0 50px #000;
+        0 0 40px #000,
+        inset 0 0 30px #000;
 }
 
-.inside {
-    position: absolute;
-    inset: 18px;
-
-    background:
-        radial-gradient(
-            ellipse at center,
-            #151515,
-            #000 75%
-        );
-}
-
+/* DOORS */
 .door {
     position: absolute;
-
-    top: 18px;
-    bottom: 18px;
-
+    top: 0;
     width: 50%;
-
+    height: 100%;
     background:
-        linear-gradient(
-            90deg,
-            #3b3b3b,
-            #171717 45%,
-            #292929
-        );
-
-    border: 3px solid #080808;
-
-    box-shadow:
-        inset 0 0 30px #000,
-        0 10px 30px #000;
-
+        linear-gradient(135deg, #252525, #090909);
+    border: 5px solid #303030;
     z-index: 5;
-
     transition:
-        transform 1.8s cubic-bezier(.12,.72,.18,1);
+        transform 2s cubic-bezier(.7,0,.2,1);
 }
 
-.leftDoor {
+.door.left {
     left: 0;
     transform-origin: left center;
 }
 
-.rightDoor {
+.door.right {
     right: 0;
     transform-origin: right center;
 }
 
-.open .leftDoor {
-    transform: rotateY(-100deg);
+.doors-open .door.left {
+    transform: perspective(700px) rotateY(-105deg);
 }
 
-.open .rightDoor {
-    transform: rotateY(100deg);
+.doors-open .door.right {
+    transform: perspective(700px) rotateY(105deg);
 }
 
-/* CAMERA */
-
-.walkIn {
-    animation: walkIn 2s ease-out forwards;
+/* DOOR DETAILS */
+.door::before {
+    content: "";
+    position: absolute;
+    inset: 20px;
+    border: 2px solid #444;
 }
 
-@keyframes walkIn {
-    from {
-        transform: scale(1);
-    }
+.handle {
+    position: absolute;
+    top: 50%;
+    width: 12px;
+    height: 55px;
+    background: #777;
+    border-radius: 5px;
+}
 
-    to {
-        transform: scale(1.1);
-    }
+.left .handle {
+    right: 15px;
+}
+
+.right .handle {
+    left: 15px;
 }
 
 /* BOX */
-
 .box {
     position: absolute;
-
     left: 50%;
-    bottom: 85px;
-
-    width: 170px;
-    height: 170px;
-
-    transform:
-        translateX(-50%)
-        scale(.3);
-
-    opacity: 0;
-
+    bottom: 20%;
+    width: 100px;
+    height: 100px;
+    transform: translate(-50%, 0) scale(0);
     z-index: 20;
-
-    box-shadow: 0 25px 50px #000;
-
-    transition:
-        opacity .7s,
-        transform .7s;
+    display: none;
 }
 
-.box.show {
-    opacity: 1;
-
-    transform:
-        translateX(-50%)
-        scale(1);
-}
-
-.boxTop {
+.box-top {
+    position: absolute;
+    top: 0;
+    width: 100%;
     height: 50%;
-
-    background:
-        linear-gradient(
-            135deg,
-            #111,
-            #000
-        );
-
-    border: 5px solid #555;
-    border-bottom: 2px solid #222;
+    background: #080808;
+    border: 4px solid #555;
 }
 
-.boxBottom {
+.box-bottom {
+    position: absolute;
+    bottom: 0;
+    width: 100%;
     height: 50%;
-
-    background:
-        linear-gradient(
-            135deg,
-            #fff,
-            #ccc
-        );
-
-    border: 5px solid #555;
-    border-top: 0;
+    background: #eee;
+    border: 4px solid #555;
 }
 
 .button {
     position: absolute;
-
-    width: 48px;
-    height: 48px;
-
     left: 50%;
     top: 50%;
-
+    width: 25px;
+    height: 25px;
     transform: translate(-50%, -50%);
-
     border-radius: 50%;
-
-    background:
-        radial-gradient(
-            circle at 35% 30%,
-            #aaa,
-            #555
-        );
-
-    border: 6px solid #222;
+    background: #888;
+    border: 4px solid #444;
+    z-index: 2;
 }
 
-/* THREE SHAKES */
-
-.box.shake {
-    animation: shake .6s ease-in-out;
+/* BOX SPAWN */
+.box.spawn {
+    display: block;
+    animation: boxSpawn .6s ease-out forwards;
 }
 
-@keyframes shake {
-
-    0% {
-        transform: translateX(-50%) rotate(0);
+@keyframes boxSpawn {
+    from {
+        transform: translate(-50%, 0) scale(0);
     }
-
-    20% {
-        transform:
-            translateX(calc(-50% - 14px))
-            rotate(-5deg);
+    to {
+        transform: translate(-50%, 0) scale(1);
     }
+}
 
-    40% {
-        transform:
-            translateX(calc(-50% + 14px))
-            rotate(5deg);
-    }
+/* EXACTLY 3 SHAKES */
+.box.shake1 {
+    animation: shake1 .22s ease-in-out;
+}
 
-    60% {
-        transform:
-            translateX(calc(-50% - 10px))
-            rotate(-4deg);
-    }
+.box.shake2 {
+    animation: shake2 .22s ease-in-out;
+}
 
-    80% {
-        transform:
-            translateX(calc(-50% + 7px))
-            rotate(3deg);
-    }
+.box.shake3 {
+    animation: shake3 .22s ease-in-out;
+}
 
-    100% {
-        transform:
-            translateX(-50%)
-            rotate(0);
-    }
+@keyframes shake1 {
+    0%,100% { transform: translate(-50%,0) rotate(0); }
+    25% { transform: translate(calc(-50% - 9px),0) rotate(-5deg); }
+    75% { transform: translate(calc(-50% + 9px),0) rotate(5deg); }
+}
+
+@keyframes shake2 {
+    0%,100% { transform: translate(-50%,0) rotate(0); }
+    25% { transform: translate(calc(-50% - 12px),0) rotate(-7deg); }
+    75% { transform: translate(calc(-50% + 12px),0) rotate(7deg); }
+}
+
+@keyframes shake3 {
+    0%,100% { transform: translate(-50%,0) rotate(0); }
+    25% { transform: translate(calc(-50% - 15px),0) rotate(-9deg); }
+    75% { transform: translate(calc(-50% + 15px),0) rotate(9deg); }
 }
 
 /* STARS */
+.stars {
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    z-index: 30;
+}
 
 .star {
     position: absolute;
-
-    left: 50%;
-    top: calc(100% - 170px);
-
-    width: 6px;
-    height: 6px;
-
+    width: 7px;
+    height: 7px;
     background: white;
-
     clip-path: polygon(
         50% 0%,
-        62% 38%,
+        61% 39%,
         100% 50%,
-        62% 62%,
+        61% 61%,
         50% 100%,
-        38% 62%,
+        39% 61%,
         0% 50%,
-        38% 38%
+        39% 39%
     );
 
+    left: 50%;
+    top: 70%;
     opacity: 0;
-
-    z-index: 30;
-
-    --explodeX: 0px;
-    --explodeY: 0px;
-
-    --targetX: 0px;
-    --targetY: 0px;
+    transform: translate(-50%, -50%);
 }
 
 /* EXPLOSION */
-
-.explode .star {
-    opacity: 1;
-
-    animation:
-        explode 1.1s
-        cubic-bezier(.1,.7,.2,1)
-        forwards;
+.star.explode {
+    animation: explode 1s cubic-bezier(.1,.8,.2,1) forwards;
 }
 
 @keyframes explode {
-
     0% {
+        opacity: 1;
         transform:
             translate(-50%, -50%)
-            scale(.1);
+            scale(.3);
     }
 
     100% {
+        opacity: 1;
         transform:
             translate(
-                var(--explodeX),
-                var(--explodeY)
+                calc(-50% + var(--explode-x)),
+                calc(-50% + var(--explode-y))
             )
-            scale(1.2);
+            scale(1);
     }
 }
 
-/* FORM ACTUAL WORD */
-
-.formWord .star {
-
+/* FORM THE WORD */
+.star.form {
     animation:
-        formWord 2.5s
-        cubic-bezier(.15,.8,.2,1)
+        formWord 1.8s cubic-bezier(.7,0,.2,1)
         forwards;
 }
 
 @keyframes formWord {
-
-    0% {
+    from {
+        opacity: 1;
         transform:
             translate(
-                var(--explodeX),
-                var(--explodeY)
+                calc(-50% + var(--explode-x)),
+                calc(-50% + var(--explode-y))
             )
-            scale(1.2);
+            scale(1);
     }
 
-    100% {
+    to {
+        opacity: 1;
         transform:
             translate(
-                var(--targetX),
-                var(--targetY)
+                calc(-50% + var(--target-x)),
+                calc(-50% + var(--target-y))
             )
             scale(.9);
     }
 }
 
+/* DARK FADE */
+.fade {
+    position: absolute;
+    inset: 0;
+    background: #000;
+    opacity: 0;
+    pointer-events: none;
+    z-index: 100;
+    transition: opacity 1s;
+}
 </style>
 </head>
 
 <body>
 
-<div class="scene" id="scene">
+<div class="scene">
 
-    <div class="building"></div>
+    <div class="camera">
 
-    <div class="ground"></div>
+        <div class="building"></div>
+        <div class="ground"></div>
 
-    <div class="entrance" id="entrance">
+        <div class="entrance">
 
-        <div class="frame"></div>
+            <div class="door left">
+                <div class="handle"></div>
+            </div>
 
-        <div class="inside"></div>
+            <div class="door right">
+                <div class="handle"></div>
+            </div>
 
-        <div class="door leftDoor"></div>
+        </div>
 
-        <div class="door rightDoor"></div>
+        <div class="box" id="box">
+            <div class="box-top"></div>
+            <div class="box-bottom"></div>
+            <div class="button"></div>
+        </div>
+
+        <div class="stars" id="stars"></div>
 
     </div>
 
-    <div class="box" id="box">
-
-        <div class="boxTop"></div>
-
-        <div class="boxBottom"></div>
-
-        <div class="button"></div>
-
-    </div>
-
-    <div id="stars"></div>
+    <div class="fade"></div>
 
 </div>
 
-
 <script>
 
-const scene =
-    document.getElementById("scene");
+/* =========================================
+   SETTINGS
+========================================= */
 
-const entrance =
-    document.getElementById("entrance");
+const STAR_COUNT = 900;
 
-const box =
-    document.getElementById("box");
-
-const stars =
-    document.getElementById("stars");
+const camera = document.querySelector(".camera");
+const entrance = document.querySelector(".entrance");
+const box = document.querySelector("#box");
+const starsContainer = document.querySelector("#stars");
 
 
 /* =========================================
-   MAKE THE ACTUAL "QUADRO BRO'S" SHAPE
-   ========================================= */
+   FULL CAMERA ZOOM
+========================================= */
 
-const canvas =
-    document.createElement("canvas");
+setTimeout(() => {
 
-const ctx =
-    canvas.getContext("2d");
+    camera.style.transform = "scale(2.8)";
 
-canvas.width = 1000;
-canvas.height = 250;
+}, 300);
 
-ctx.fillStyle = "white";
 
-ctx.font =
-    "bold 110px Arial";
+/* =========================================
+   OPEN DOORS
+========================================= */
 
+setTimeout(() => {
+
+    entrance.classList.add("doors-open");
+
+}, 1300);
+
+
+/* =========================================
+   CREATE OFFSCREEN TEXT
+========================================= */
+
+const canvas = document.createElement("canvas");
+const ctx = canvas.getContext("2d");
+
+canvas.width = window.innerWidth;
+canvas.height = window.innerHeight;
+
+ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+let fontSize = Math.min(
+    window.innerWidth * 0.13,
+    150
+);
+
+ctx.font = `900 ${fontSize}px Arial`;
 ctx.textAlign = "center";
 ctx.textBaseline = "middle";
 
+ctx.fillStyle = "white";
+
 ctx.fillText(
     "Quadro Bro's",
-    500,
-    125
+    canvas.width / 2,
+    canvas.height / 2
 );
 
 
-/* Find the actual pixels of the letters */
+/* =========================================
+   FIND ACTUAL LETTER PIXELS
+========================================= */
 
-const pixels =
-    ctx.getImageData(
-        0,
-        0,
-        canvas.width,
-        canvas.height
-    ).data;
+const imageData = ctx.getImageData(
+    0,
+    0,
+    canvas.width,
+    canvas.height
+);
 
+const pixels = [];
 
-/* Store positions */
+for (
+    let y = 0;
+    y < canvas.height;
+    y += 4
+) {
 
-const textPositions = [];
-
-
-/*
-   Every few pixels becomes a star.
-   This creates the actual letter shapes.
-*/
-
-for (let y = 0; y < canvas.height; y += 5) {
-
-    for (let x = 0; x < canvas.width; x += 5) {
+    for (
+        let x = 0;
+        x < canvas.width;
+        x += 4
+    ) {
 
         const index =
             (y * canvas.width + x) * 4;
 
         const alpha =
-            pixels[index + 3];
+            imageData.data[index + 3];
 
-        if (alpha > 150) {
+        if (alpha > 100) {
 
-            textPositions.push({
-                x: x - 500,
-                y: y - 125
+            pixels.push({
+                x: x - canvas.width / 2,
+                y: y - canvas.height / 2
             });
 
         }
+
     }
+
 }
 
 
 /* =========================================
+   SHUFFLE LETTER PIXELS
+========================================= */
+
+pixels.sort(() => Math.random() - .5);
+
+
+/* =========================================
    CREATE STARS
-   ========================================= */
+========================================= */
 
-const starCount =
-    Math.min(
-        500,
-        textPositions.length
-    );
+const stars = [];
 
-
-for (let i = 0; i < starCount; i++) {
+for (
+    let i = 0;
+    i < STAR_COUNT;
+    i++
+) {
 
     const star =
         document.createElement("div");
 
     star.className = "star";
 
+    /*
+      IMPORTANT:
+      Every star receives an ACTUAL
+      pixel from the text.
+    */
 
-    /* Random explosion */
+    const target =
+        pixels[i % pixels.length];
 
+    star.style.setProperty(
+        "--target-x",
+        `${target.x}px`
+    );
+
+    star.style.setProperty(
+        "--target-y",
+        `${target.y}px`
+    );
+
+
+    /* RANDOM EXPLOSION */
     const angle =
         Math.random() * Math.PI * 2;
 
     const distance =
-        100 + Math.random() * 450;
+        100 + Math.random() * 500;
 
     const explodeX =
         Math.cos(angle) * distance;
@@ -561,138 +534,137 @@ for (let i = 0; i < starCount; i++) {
 
 
     star.style.setProperty(
-        "--explodeX",
-        explodeX + "px"
+        "--explode-x",
+        `${explodeX}px`
     );
 
     star.style.setProperty(
-        "--explodeY",
-        explodeY + "px"
+        "--explode-y",
+        `${explodeY}px`
     );
 
 
-    /* ACTUAL LETTER POSITION */
+    starsContainer.appendChild(star);
 
-    const target =
-        textPositions[
-            Math.floor(
-                i *
-                textPositions.length /
-                starCount
-            )
-        ];
-
-
-    /*
-       Scale the text to fit
-       nicely on the screen.
-    */
-
-    const scale = 0.8;
-
-    star.style.setProperty(
-        "--targetX",
-        (target.x * scale) + "px"
-    );
-
-    star.style.setProperty(
-        "--targetY",
-        (target.y * scale) + "px"
-    );
-
-
-    stars.appendChild(star);
+    stars.push(star);
 }
 
 
 /* =========================================
-   DOORS OPEN
-   ========================================= */
+   BOX SPAWNS
+========================================= */
 
 setTimeout(() => {
 
-    entrance.classList.add("open");
+    box.classList.add("spawn");
 
-    scene.classList.add("walkIn");
-
-}, 1000);
-
-
-/* =========================================
-   BOX APPEARS
-   ========================================= */
-
-setTimeout(() => {
-
-    box.classList.add("show");
-
-}, 2700);
+}, 3000);
 
 
 /* =========================================
    SHAKE #1
-   ========================================= */
+========================================= */
 
 setTimeout(() => {
 
-    box.classList.add("shake");
+    box.classList.remove(
+        "spawn"
+    );
 
-}, 3600);
+    box.classList.add(
+        "shake1"
+    );
+
+}, 3800);
 
 
 /* =========================================
    SHAKE #2
-   ========================================= */
+========================================= */
 
 setTimeout(() => {
 
-    box.classList.remove("shake");
+    box.classList.remove(
+        "shake1"
+    );
 
-    void box.offsetWidth;
-
-    box.classList.add("shake");
+    box.classList.add(
+        "shake2"
+    );
 
 }, 4400);
 
 
 /* =========================================
    SHAKE #3
-   ========================================= */
+========================================= */
 
 setTimeout(() => {
 
-    box.classList.remove("shake");
+    box.classList.remove(
+        "shake2"
+    );
 
-    void box.offsetWidth;
+    box.classList.add(
+        "shake3"
+    );
 
-    box.classList.add("shake");
-
-}, 5200);
+}, 5000);
 
 
 /* =========================================
-   STAR EXPLOSION
-   ========================================= */
+   BURST
+========================================= */
 
 setTimeout(() => {
 
-    box.style.opacity = "0";
+    box.style.display = "none";
 
-    stars.classList.add("explode");
+    stars.forEach((star, i) => {
 
-}, 6000);
+        setTimeout(() => {
+
+            star.classList.add(
+                "explode"
+            );
+
+        }, Math.random() * 100);
+
+    });
+
+}, 5400);
 
 
 /* =========================================
-   WAIT 2 SECONDS
-   THEN FORM THE ACTUAL WORD
-   ========================================= */
+   WAIT EXACTLY 2 SECONDS
+   THEN FORM THE WORD
+========================================= */
 
 setTimeout(() => {
 
-    stars.classList.add("formWord");
+    stars.forEach((star, i) => {
 
-}, 8000);
+        setTimeout(() => {
+
+            star.classList.remove(
+                "explode"
+            );
+
+            /*
+              THIS IS THE IMPORTANT PART:
+              stars move to the ACTUAL PIXELS
+              of "Quadro Bro's"
+            */
+
+            star.classList.add(
+                "form"
+            );
+
+        }, Math.random() * 500);
+
+    });
+
+}, 7400);
 
 </script>
 
