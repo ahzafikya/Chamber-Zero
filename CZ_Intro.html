@@ -23,15 +23,15 @@ html, body {
     position: relative;
     width: 100vw;
     height: 100vh;
-    background: #111;
     overflow: hidden;
+    background: #111;
 }
 
 /* CAMERA */
 .camera {
     position: absolute;
     inset: 0;
-    transform-origin: center center;
+    transform-origin: 50% 50%;
     transform: scale(1);
     transition: transform 3s cubic-bezier(.65,0,.2,1);
 }
@@ -39,15 +39,14 @@ html, body {
 /* BUILDING */
 .building {
     position: absolute;
+    left: 0;
+    top: 0;
     width: 100%;
     height: 82%;
-    top: 0;
-    background:
-        linear-gradient(#292929, #111);
+    background: linear-gradient(#292929, #111);
     border-bottom: 12px solid #090909;
 }
 
-/* concrete texture */
 .building::after {
     content: "";
     position: absolute;
@@ -66,18 +65,18 @@ html, body {
 /* GROUND */
 .ground {
     position: absolute;
+    left: 0;
     bottom: 0;
     width: 100%;
     height: 22%;
-    background:
-        linear-gradient(#171717, #050505);
+    background: linear-gradient(#171717, #050505);
 }
 
 /* ENTRANCE */
 .entrance {
     position: absolute;
     left: 50%;
-    bottom: 18%;
+    top: 15%;
     width: 420px;
     height: 520px;
     transform: translateX(-50%);
@@ -93,12 +92,10 @@ html, body {
     top: 0;
     width: 50%;
     height: 100%;
-    background:
-        linear-gradient(135deg, #252525, #090909);
+    background: linear-gradient(135deg, #252525, #090909);
     border: 5px solid #303030;
     z-index: 5;
-    transition:
-        transform 2s cubic-bezier(.7,0,.2,1);
+    transition: transform 2s cubic-bezier(.7,0,.2,1);
 }
 
 .door.left {
@@ -119,14 +116,7 @@ html, body {
     transform: perspective(700px) rotateY(105deg);
 }
 
-/* DOOR DETAILS */
-.door::before {
-    content: "";
-    position: absolute;
-    inset: 20px;
-    border: 2px solid #444;
-}
-
+/* HANDLES */
 .handle {
     position: absolute;
     top: 50%;
@@ -147,12 +137,17 @@ html, body {
 /* BOX */
 .box {
     position: absolute;
+
+    /* CENTER OF SCREEN */
     left: 50%;
-    bottom: 20%;
+    top: 70%;
+
     width: 100px;
     height: 100px;
-    transform: translate(-50%, 0) scale(0);
-    z-index: 20;
+
+    transform: translate(-50%, -50%) scale(0);
+
+    z-index: 50;
     display: none;
 }
 
@@ -195,14 +190,15 @@ html, body {
 
 @keyframes boxSpawn {
     from {
-        transform: translate(-50%, 0) scale(0);
+        transform: translate(-50%, -50%) scale(0);
     }
+
     to {
-        transform: translate(-50%, 0) scale(1);
+        transform: translate(-50%, -50%) scale(1);
     }
 }
 
-/* EXACTLY 3 SHAKES */
+/* SHAKES */
 .box.shake1 {
     animation: shake1 .22s ease-in-out;
 }
@@ -216,21 +212,45 @@ html, body {
 }
 
 @keyframes shake1 {
-    0%,100% { transform: translate(-50%,0) rotate(0); }
-    25% { transform: translate(calc(-50% - 9px),0) rotate(-5deg); }
-    75% { transform: translate(calc(-50% + 9px),0) rotate(5deg); }
+    0%,100% {
+        transform: translate(-50%, -50%) rotate(0);
+    }
+
+    25% {
+        transform: translate(calc(-50% - 9px), -50%) rotate(-5deg);
+    }
+
+    75% {
+        transform: translate(calc(-50% + 9px), -50%) rotate(5deg);
+    }
 }
 
 @keyframes shake2 {
-    0%,100% { transform: translate(-50%,0) rotate(0); }
-    25% { transform: translate(calc(-50% - 12px),0) rotate(-7deg); }
-    75% { transform: translate(calc(-50% + 12px),0) rotate(7deg); }
+    0%,100% {
+        transform: translate(-50%, -50%) rotate(0);
+    }
+
+    25% {
+        transform: translate(calc(-50% - 12px), -50%) rotate(-7deg);
+    }
+
+    75% {
+        transform: translate(calc(-50% + 12px), -50%) rotate(7deg);
+    }
 }
 
 @keyframes shake3 {
-    0%,100% { transform: translate(-50%,0) rotate(0); }
-    25% { transform: translate(calc(-50% - 15px),0) rotate(-9deg); }
-    75% { transform: translate(calc(-50% + 15px),0) rotate(9deg); }
+    0%,100% {
+        transform: translate(-50%, -50%) rotate(0);
+    }
+
+    25% {
+        transform: translate(calc(-50% - 15px), -50%) rotate(-9deg);
+    }
+
+    75% {
+        transform: translate(calc(-50% + 15px), -50%) rotate(9deg);
+    }
 }
 
 /* STARS */
@@ -238,14 +258,22 @@ html, body {
     position: absolute;
     inset: 0;
     pointer-events: none;
-    z-index: 30;
+    z-index: 60;
 }
 
 .star {
     position: absolute;
+
     width: 7px;
     height: 7px;
+
+    left: 50%;
+    top: 70%;
+
+    opacity: 0;
+
     background: white;
+
     clip-path: polygon(
         50% 0%,
         61% 39%,
@@ -257,9 +285,6 @@ html, body {
         39% 39%
     );
 
-    left: 50%;
-    top: 70%;
-    opacity: 0;
     transform: translate(-50%, -50%);
 }
 
@@ -269,8 +294,10 @@ html, body {
 }
 
 @keyframes explode {
+
     0% {
         opacity: 1;
+
         transform:
             translate(-50%, -50%)
             scale(.3);
@@ -278,6 +305,7 @@ html, body {
 
     100% {
         opacity: 1;
+
         transform:
             translate(
                 calc(-50% + var(--explode-x)),
@@ -287,7 +315,7 @@ html, body {
     }
 }
 
-/* FORM THE WORD */
+/* FORM WORD */
 .star.form {
     animation:
         formWord 1.8s cubic-bezier(.7,0,.2,1)
@@ -295,8 +323,10 @@ html, body {
 }
 
 @keyframes formWord {
+
     from {
         opacity: 1;
+
         transform:
             translate(
                 calc(-50% + var(--explode-x)),
@@ -307,6 +337,7 @@ html, body {
 
     to {
         opacity: 1;
+
         transform:
             translate(
                 calc(-50% + var(--target-x)),
@@ -314,17 +345,6 @@ html, body {
             )
             scale(.9);
     }
-}
-
-/* DARK FADE */
-.fade {
-    position: absolute;
-    inset: 0;
-    background: #000;
-    opacity: 0;
-    pointer-events: none;
-    z-index: 100;
-    transition: opacity 1s;
 }
 </style>
 </head>
@@ -336,6 +356,7 @@ html, body {
     <div class="camera">
 
         <div class="building"></div>
+
         <div class="ground"></div>
 
         <div class="entrance">
@@ -350,78 +371,109 @@ html, body {
 
         </div>
 
+        <!-- SQUARE BOX -->
         <div class="box" id="box">
+
             <div class="box-top"></div>
+
             <div class="box-bottom"></div>
+
             <div class="button"></div>
+
         </div>
 
         <div class="stars" id="stars"></div>
 
     </div>
 
-    <div class="fade"></div>
-
 </div>
 
 <script>
 
-/* =========================================
+/* =====================================
    SETTINGS
-========================================= */
+===================================== */
 
 const STAR_COUNT = 900;
 
-const camera = document.querySelector(".camera");
-const entrance = document.querySelector(".entrance");
-const box = document.querySelector("#box");
-const starsContainer = document.querySelector("#stars");
+const camera =
+    document.querySelector(".camera");
+
+const entrance =
+    document.querySelector(".entrance");
+
+const box =
+    document.querySelector("#box");
+
+const starsContainer =
+    document.querySelector("#stars");
 
 
-/* =========================================
-   FULL CAMERA ZOOM
-========================================= */
+/* =====================================
+   FULL ZOOM TO DOOR
+===================================== */
 
 setTimeout(() => {
 
-    camera.style.transform = "scale(2.8)";
+    camera.style.transform =
+        "scale(2.8)";
 
 }, 300);
 
 
-/* =========================================
+/* =====================================
    OPEN DOORS
-========================================= */
+===================================== */
 
 setTimeout(() => {
 
-    entrance.classList.add("doors-open");
+    entrance.classList.add(
+        "doors-open"
+    );
 
 }, 1300);
 
 
-/* =========================================
-   CREATE OFFSCREEN TEXT
-========================================= */
+/* =====================================
+   CREATE TEXT PIXELS
+===================================== */
 
-const canvas = document.createElement("canvas");
-const ctx = canvas.getContext("2d");
+const canvas =
+    document.createElement("canvas");
 
-canvas.width = window.innerWidth;
-canvas.height = window.innerHeight;
+const ctx =
+    canvas.getContext("2d");
 
-ctx.clearRect(0, 0, canvas.width, canvas.height);
+canvas.width =
+    window.innerWidth;
 
-let fontSize = Math.min(
-    window.innerWidth * 0.13,
-    150
+canvas.height =
+    window.innerHeight;
+
+ctx.clearRect(
+    0,
+    0,
+    canvas.width,
+    canvas.height
 );
 
-ctx.font = `900 ${fontSize}px Arial`;
-ctx.textAlign = "center";
-ctx.textBaseline = "middle";
+const fontSize =
+    Math.min(
+        window.innerWidth * 0.13,
+        150
+    );
 
-ctx.fillStyle = "white";
+ctx.font =
+    `900 ${fontSize}px Arial`;
+
+ctx.textAlign =
+    "center";
+
+ctx.textBaseline =
+    "middle";
+
+ctx.fillStyle =
+    "white";
 
 ctx.fillText(
     "Quadro Bro's",
@@ -430,16 +482,17 @@ ctx.fillText(
 );
 
 
-/* =========================================
-   FIND ACTUAL LETTER PIXELS
-========================================= */
+/* =====================================
+   GET REAL LETTER PIXELS
+===================================== */
 
-const imageData = ctx.getImageData(
-    0,
-    0,
-    canvas.width,
-    canvas.height
-);
+const imageData =
+    ctx.getImageData(
+        0,
+        0,
+        canvas.width,
+        canvas.height
+    );
 
 const pixels = [];
 
@@ -464,8 +517,15 @@ for (
         if (alpha > 100) {
 
             pixels.push({
-                x: x - canvas.width / 2,
-                y: y - canvas.height / 2
+
+                x:
+                    x -
+                    canvas.width / 2,
+
+                y:
+                    y -
+                    canvas.height / 2
+
             });
 
         }
@@ -475,16 +535,9 @@ for (
 }
 
 
-/* =========================================
-   SHUFFLE LETTER PIXELS
-========================================= */
-
-pixels.sort(() => Math.random() - .5);
-
-
-/* =========================================
+/* =====================================
    CREATE STARS
-========================================= */
+===================================== */
 
 const stars = [];
 
@@ -497,16 +550,17 @@ for (
     const star =
         document.createElement("div");
 
-    star.className = "star";
+    star.className =
+        "star";
 
-    /*
-      IMPORTANT:
-      Every star receives an ACTUAL
-      pixel from the text.
-    */
+
+    /* ACTUAL LETTER PIXEL */
 
     const target =
-        pixels[i % pixels.length];
+        pixels[
+            i % pixels.length
+        ];
+
 
     star.style.setProperty(
         "--target-x",
@@ -520,17 +574,23 @@ for (
 
 
     /* RANDOM EXPLOSION */
+
     const angle =
-        Math.random() * Math.PI * 2;
+        Math.random() *
+        Math.PI *
+        2;
 
     const distance =
-        100 + Math.random() * 500;
+        150 +
+        Math.random() * 500;
 
     const explodeX =
-        Math.cos(angle) * distance;
+        Math.cos(angle) *
+        distance;
 
     const explodeY =
-        Math.sin(angle) * distance;
+        Math.sin(angle) *
+        distance;
 
 
     star.style.setProperty(
@@ -544,125 +604,113 @@ for (
     );
 
 
-    starsContainer.appendChild(star);
+    starsContainer.appendChild(
+        star
+    );
 
     stars.push(star);
 }
 
 
-/* =========================================
-   BOX SPAWNS
-========================================= */
+/* =====================================
+   BOX SPAWN
+===================================== */
 
 setTimeout(() => {
 
-    box.classList.add("spawn");
+    box.classList.add(
+        "spawn"
+    );
 
 }, 3000);
 
 
-/* =========================================
-   SHAKE #1
-========================================= */
+/* =====================================
+   SHAKE 1
+===================================== */
 
 setTimeout(() => {
 
-    box.classList.remove(
-        "spawn"
-    );
-
-    box.classList.add(
-        "shake1"
-    );
+    box.className =
+        "box shake1";
 
 }, 3800);
 
 
-/* =========================================
-   SHAKE #2
-========================================= */
+/* =====================================
+   SHAKE 2
+===================================== */
 
 setTimeout(() => {
 
-    box.classList.remove(
-        "shake1"
-    );
-
-    box.classList.add(
-        "shake2"
-    );
+    box.className =
+        "box shake2";
 
 }, 4400);
 
 
-/* =========================================
-   SHAKE #3
-========================================= */
+/* =====================================
+   SHAKE 3
+===================================== */
 
 setTimeout(() => {
 
-    box.classList.remove(
-        "shake2"
-    );
-
-    box.classList.add(
-        "shake3"
-    );
+    box.className =
+        "box shake3";
 
 }, 5000);
 
 
-/* =========================================
+/* =====================================
    BURST
-========================================= */
+===================================== */
 
 setTimeout(() => {
 
-    box.style.display = "none";
+    box.style.display =
+        "none";
 
-    stars.forEach((star, i) => {
+    stars.forEach(
+        (star, i) => {
 
-        setTimeout(() => {
+            setTimeout(() => {
 
-            star.classList.add(
-                "explode"
-            );
+                star.classList.add(
+                    "explode"
+                );
 
-        }, Math.random() * 100);
+            }, Math.random() * 120);
 
-    });
+        }
+    );
 
 }, 5400);
 
 
-/* =========================================
-   WAIT EXACTLY 2 SECONDS
-   THEN FORM THE WORD
-========================================= */
+/* =====================================
+   2 SECOND WAIT
+   THEN FORM WORD
+===================================== */
 
 setTimeout(() => {
 
-    stars.forEach((star, i) => {
+    stars.forEach(
+        (star, i) => {
 
-        setTimeout(() => {
+            setTimeout(() => {
 
-            star.classList.remove(
-                "explode"
-            );
+                star.classList.remove(
+                    "explode"
+                );
 
-            /*
-              THIS IS THE IMPORTANT PART:
-              stars move to the ACTUAL PIXELS
-              of "Quadro Bro's"
-            */
+                star.classList.add(
+                    "form"
+                );
 
-            star.classList.add(
-                "form"
-            );
+            }, Math.random() * 450);
 
-        }, Math.random() * 500);
-
-    });
+        }
+    );
 
 }, 7400);
 
