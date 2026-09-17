@@ -141,14 +141,6 @@ html, body {
 .ground {
     position: absolute;
 
-    /*
-       Entrance:
-       top = 16%
-       height = 530px
-
-       So the floor begins exactly where
-       the doorway ends.
-    */
     left: -15%;
     top: calc(16% + 530px);
 
@@ -159,7 +151,6 @@ html, body {
 
     background-image:
 
-        /* horizontal brick joints */
         repeating-linear-gradient(
             to bottom,
             transparent 0px,
@@ -168,7 +159,6 @@ html, body {
             #020202 59px
         ),
 
-        /* vertical brick joints */
         repeating-linear-gradient(
             90deg,
             transparent 0px,
@@ -177,7 +167,6 @@ html, body {
             #020202 111px
         ),
 
-        /* floor lighting */
         linear-gradient(
             to bottom,
             #181818 0%,
@@ -196,11 +185,6 @@ html, body {
         0 0,
         0 0;
 
-    /*
-       IMPORTANT:
-       The floor rotates from its TOP,
-       which is the doorway threshold.
-    */
     transform:
         perspective(600px)
         rotateX(62deg);
@@ -217,7 +201,6 @@ html, body {
 
 /* ==================================================
    DOORWAY THRESHOLD
-   CONNECTS THE DOOR DIRECTLY TO THE FLOOR
 ================================================== */
 
 .threshold {
@@ -225,10 +208,6 @@ html, body {
 
     left: 50%;
 
-    /*
-       Bottom of entrance:
-       16% + 530px
-    */
     top: calc(16% + 530px - 12px);
 
     width: 470px;
@@ -530,6 +509,13 @@ html, body {
     opacity: 0;
 
     z-index: 110;
+
+    /*
+       Prevents accidental visual flickering
+       from rendering/compositing changes.
+    */
+    backface-visibility: hidden;
+    -webkit-backface-visibility: hidden;
 }
 
 
@@ -646,18 +632,24 @@ html, body {
 @keyframes boxAppear {
 
     0% {
+        opacity: 0;
+
         transform:
             translate(-50%, -50%)
             scale(0);
     }
 
     70% {
+        opacity: 1;
+
         transform:
             translate(-50%, -50%)
             scale(1.15);
     }
 
     100% {
+        opacity: 1;
+
         transform:
             translate(-50%, -50%)
             scale(1);
@@ -668,21 +660,28 @@ html, body {
 
 /* ==================================================
    EXACTLY 3 SHAKES
+   NO FLICKER
 ================================================== */
 
 .box.shake1 {
+    opacity: 1;
+
     animation:
-        shakeOne .32s ease-in-out;
+        shakeOne .32s ease-in-out forwards;
 }
 
 .box.shake2 {
+    opacity: 1;
+
     animation:
-        shakeTwo .32s ease-in-out;
+        shakeTwo .32s ease-in-out forwards;
 }
 
 .box.shake3 {
+    opacity: 1;
+
     animation:
-        shakeThree .32s ease-in-out;
+        shakeThree .32s ease-in-out forwards;
 }
 
 
@@ -691,24 +690,28 @@ html, body {
     0%,100% {
         transform:
             translate(-50%, -50%)
+            scale(1)
             rotate(0deg);
     }
 
     25% {
         transform:
             translate(calc(-50% - 10px), -50%)
+            scale(1)
             rotate(-5deg);
     }
 
     50% {
         transform:
             translate(calc(-50% + 10px), -50%)
+            scale(1)
             rotate(5deg);
     }
 
     75% {
         transform:
             translate(calc(-50% - 7px), -50%)
+            scale(1)
             rotate(-3deg);
     }
 
@@ -720,24 +723,28 @@ html, body {
     0%,100% {
         transform:
             translate(-50%, -50%)
+            scale(1)
             rotate(0deg);
     }
 
     25% {
         transform:
             translate(calc(-50% + 11px), -50%)
+            scale(1)
             rotate(5deg);
     }
 
     50% {
         transform:
             translate(calc(-50% - 11px), -50%)
+            scale(1)
             rotate(-5deg);
     }
 
     75% {
         transform:
             translate(calc(-50% + 7px), -50%)
+            scale(1)
             rotate(3deg);
     }
 
@@ -749,24 +756,28 @@ html, body {
     0%,100% {
         transform:
             translate(-50%, -50%)
+            scale(1)
             rotate(0deg);
     }
 
     25% {
         transform:
             translate(calc(-50% - 12px), -50%)
+            scale(1)
             rotate(-6deg);
     }
 
     50% {
         transform:
             translate(calc(-50% + 12px), -50%)
+            scale(1)
             rotate(6deg);
     }
 
     75% {
         transform:
             translate(calc(-50% - 6px), -50%)
+            scale(1)
             rotate(-3deg);
     }
 
@@ -841,6 +852,10 @@ html, body {
 
 
 <script>
+
+/* ==================================================
+   ELEMENTS
+================================================== */
 
 const camera =
     document.querySelector(".camera");
@@ -1346,6 +1361,12 @@ function animateStars(now) {
    TIMELINE
 ================================================== */
 
+
+/*
+   0.3 SEC:
+   START ZOOM
+*/
+
 setTimeout(() => {
 
     camera.style.transform =
@@ -1359,6 +1380,10 @@ setTimeout(() => {
 }, 300);
 
 
+/*
+   CHEST APPEARS MID-ZOOM
+*/
+
 setTimeout(() => {
 
     box.classList.add(
@@ -1368,15 +1393,16 @@ setTimeout(() => {
 }, 1500);
 
 
+/*
+   SHAKE 1
+
+   IMPORTANT:
+   We DO NOT remove .appear here.
+   This prevents the box from briefly
+   returning to scale(0).
+*/
+
 setTimeout(() => {
-
-    box.classList.remove(
-        "appear"
-    );
-
-    box.style.opacity = "1";
-
-    void box.offsetWidth;
 
     box.classList.add(
         "shake1"
@@ -1384,6 +1410,10 @@ setTimeout(() => {
 
 }, 2500);
 
+
+/*
+   SHAKE 2
+*/
 
 setTimeout(() => {
 
@@ -1400,6 +1430,10 @@ setTimeout(() => {
 }, 3100);
 
 
+/*
+   SHAKE 3
+*/
+
 setTimeout(() => {
 
     box.classList.remove(
@@ -1414,6 +1448,10 @@ setTimeout(() => {
 
 }, 3700);
 
+
+/*
+   BURST
+*/
 
 setTimeout(() => {
 
